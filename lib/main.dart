@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scoreboard/TextFieldManager.dart';
 import 'MainMission.dart';
 import 'SubMission.dart';
 
@@ -12,13 +13,12 @@ class MyApp extends StatefulWidget {
 }
 
 class TotalState extends State<MyApp> {
-  TextEditingController cpController = new TextEditingController(text: '0');
-  TextEditingController vpController = new TextEditingController(text: '0');
+  TextFieldManager tfm = new TextFieldManager();
 
   @override
   Widget build(BuildContext context) {
-    MainMission mainMission = new MainMission(vpController);
-    SubMission subMission = new SubMission(vpController);
+    MainMission mainMission = new MainMission(tfm);
+    SubMission subMission = new SubMission(tfm);
 
     return new MaterialApp(
       title: '40K Score Board',
@@ -50,7 +50,7 @@ class TotalState extends State<MyApp> {
                                       flex: 2,
                                       child: new TextField(
                                           keyboardType: TextInputType.number,
-                                          controller: cpController,
+                                          controller: tfm.cpController,
                                           decoration: InputDecoration(
                                               labelText: "Command Point (CP)")))
                                 ]),
@@ -59,7 +59,7 @@ class TotalState extends State<MyApp> {
                                       flex: 2,
                                       child: new TextField(
                                           keyboardType: TextInputType.number,
-                                          controller: vpController,
+                                          controller: tfm.vpController,
                                           decoration: InputDecoration(
                                               labelText: "Victory Point (VP)")))
                                 ])

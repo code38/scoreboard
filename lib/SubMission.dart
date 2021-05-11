@@ -1,63 +1,53 @@
 import 'package:flutter/material.dart';
 
-class SubMission extends StatefulWidget {
-  TextEditingController vpScoreController;
+import 'TextFieldManager.dart';
 
-  SubMission(TextEditingController vpScoreController) {
-    this.vpScoreController = vpScoreController;
+class SubMission extends StatefulWidget {
+  TextFieldManager tfm;
+
+  SubMission(TextFieldManager tfm) {
+    this.tfm = tfm;
   }
 
   @override
-  _SubMissionState createState() => _SubMissionState(vpScoreController);
+  _SubMissionState createState() => _SubMissionState(tfm);
 }
 
 class _SubMissionState extends State<SubMission> {
-  TextEditingController the1stTurnScoreController =
-  new TextEditingController(text: '0');
-  TextEditingController the2ndTurnScoreController =
-  new TextEditingController(text: '0');
-  TextEditingController the3rdTurnScoreController =
-  new TextEditingController(text: '0');
-  TextEditingController the1stTotalScoreController =
-  new TextEditingController(text: '0');
-  TextEditingController the2ndTotalScoreController =
-  new TextEditingController(text: '0');
-  TextEditingController the3rdTotalScoreController =
-  new TextEditingController(text: '0');
-  TextEditingController vpScoreController;
+  TextFieldManager tfm;
 
-  _SubMissionState(TextEditingController vpScoreController) {
-    this.vpScoreController = vpScoreController;
+  _SubMissionState(TextFieldManager tfm) {
+    this.tfm = tfm;
   }
 
   void addScore(int no) {
     switch (no) {
       case 1:
-        int missionVP = int.parse(the1stTotalScoreController.value.text);
-        missionVP += int.parse(the1stTurnScoreController.value.text);
-        the1stTotalScoreController.text = missionVP.toString();
+        int missionVP = int.parse(tfm.the1stTotalScoreController.value.text);
+        missionVP += int.parse(tfm.the1stTurnScoreController.value.text);
+        tfm.the1stTotalScoreController.text = missionVP.toString();
 
-        int vp = int.parse(vpScoreController.value.text);
-        vp += int.parse(the1stTurnScoreController.value.text);
-        vpScoreController.text = vp.toString();
+        int vp = int.parse(tfm.vpController.value.text);
+        vp += int.parse(tfm.the1stTurnScoreController.value.text);
+        tfm.vpController.text = vp.toString();
         break;
       case 2:
-        int missionVP = int.parse(the2ndTotalScoreController.value.text);
-        missionVP += int.parse(the2ndTurnScoreController.value.text);
-        the2ndTotalScoreController.text = missionVP.toString();
+        int missionVP = int.parse(tfm.the2ndTotalScoreController.value.text);
+        missionVP += int.parse(tfm.the2ndTurnScoreController.value.text);
+        tfm.the2ndTotalScoreController.text = missionVP.toString();
 
-        int vp = int.parse(vpScoreController.value.text);
-        vp += int.parse(the2ndTurnScoreController.value.text);
-        vpScoreController.text = vp.toString();
+        int vp = int.parse(tfm.vpController.value.text);
+        vp += int.parse(tfm.the2ndTurnScoreController.value.text);
+        tfm.vpController.text = vp.toString();
         break;
       case 3:
-        int missionVP = int.parse(the3rdTotalScoreController.value.text);
-        missionVP += int.parse(the3rdTurnScoreController.value.text);
-        the3rdTotalScoreController.text = missionVP.toString();
+        int missionVP = int.parse(tfm.the3rdTotalScoreController.value.text);
+        missionVP += int.parse(tfm.the3rdTurnScoreController.value.text);
+        tfm.the3rdTotalScoreController.text = missionVP.toString();
 
-        int vp = int.parse(vpScoreController.value.text);
-        vp += int.parse(the3rdTurnScoreController.value.text);
-        vpScoreController.text = vp.toString();
+        int vp = int.parse(tfm.vpController.value.text);
+        vp += int.parse(tfm.the3rdTurnScoreController.value.text);
+        tfm.vpController.text = vp.toString();
         break;
       default:
     }
@@ -77,7 +67,7 @@ class _SubMissionState extends State<SubMission> {
             child: TextField(
                 decoration: InputDecoration(labelText: "子任务分数"),
                 keyboardType: TextInputType.number,
-                controller: the1stTotalScoreController)),
+                controller: tfm.the1stTotalScoreController)),
         Expanded(
             flex: 2,
             child: new Padding(
@@ -93,7 +83,7 @@ class _SubMissionState extends State<SubMission> {
             child: TextField(
                 decoration: InputDecoration(labelText: "获得分数"),
                 keyboardType: TextInputType.number,
-                controller: the1stTurnScoreController))
+                controller: tfm.the1stTurnScoreController))
       ],
     );
 
@@ -109,7 +99,7 @@ class _SubMissionState extends State<SubMission> {
             child: TextField(
                 decoration: InputDecoration(labelText: "子任务分数"),
                 keyboardType: TextInputType.number,
-                controller: the2ndTotalScoreController)),
+                controller: tfm.the2ndTotalScoreController)),
         Expanded(
             flex: 2,
             child: new Padding(
@@ -125,7 +115,7 @@ class _SubMissionState extends State<SubMission> {
             child: TextField(
                 decoration: InputDecoration(labelText: "获得分数"),
                 keyboardType: TextInputType.number,
-                controller: the2ndTurnScoreController))
+                controller: tfm.the2ndTurnScoreController))
       ],
     );
 
@@ -141,7 +131,7 @@ class _SubMissionState extends State<SubMission> {
             child: TextField(
                 decoration: InputDecoration(labelText: "子任务分数"),
                 keyboardType: TextInputType.number,
-                controller: the3rdTotalScoreController)),
+                controller: tfm.the3rdTotalScoreController)),
         Expanded(
             flex: 2,
             child: new Padding(
@@ -157,7 +147,7 @@ class _SubMissionState extends State<SubMission> {
             child: TextField(
                 decoration: InputDecoration(labelText: "获得分数"),
                 keyboardType: TextInputType.number,
-                controller: the3rdTurnScoreController))
+                controller: tfm.the3rdTurnScoreController))
       ],
     );
 

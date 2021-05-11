@@ -1,148 +1,108 @@
 import 'package:flutter/material.dart';
 
-class MainMission extends StatefulWidget {
-  TextEditingController vpScoreController = null;
+import 'TextFieldManager.dart';
 
-  MainMission(TextEditingController vpScoreController) {
-    this.vpScoreController = vpScoreController;
+class MainMission extends StatefulWidget {
+  TextFieldManager tfm;
+
+  MainMission(TextFieldManager tfm) {
+    this.tfm = tfm;
   }
 
   @override
-  _MainMissionState createState() => _MainMissionState(vpScoreController);
+  _MainMissionState createState() => _MainMissionState(tfm);
 }
 
 class _MainMissionState extends State<MainMission> {
-  bool the1stTargetSuccess = false;
-  bool the2ndTargetSuccess = false;
-  bool the3rdTargetSuccess = false;
-  TextEditingController the1stScoreController =
-  new TextEditingController(text: '0');
-  TextEditingController the2ndScoreController =
-  new TextEditingController(text: '0');
-  TextEditingController the3rdScoreController =
-  new TextEditingController(text: '0');
-  TextEditingController vpScoreController;
+  TextFieldManager tfm;
 
-  _MainMissionState(TextEditingController vpScoreController) {
-    this.vpScoreController = vpScoreController;
+  _MainMissionState(TextFieldManager tfm) {
+    this.tfm = tfm;
   }
 
   void calculateMainMissionScore() {
     int turnMainMissionScore = 0;
-    if (the1stTargetSuccess) {
-      turnMainMissionScore += int.parse(the1stScoreController.text);
+    if (tfm.the1stTargetSuccess) {
+      turnMainMissionScore += int.parse(tfm.the1stScoreController.text);
     }
-    if (the2ndTargetSuccess) {
-      turnMainMissionScore += int.parse(the1stScoreController.text);
+    if (tfm.the2ndTargetSuccess) {
+      turnMainMissionScore += int.parse(tfm.the2ndScoreController.text);
     }
-    if (the3rdTargetSuccess) {
-      turnMainMissionScore += int.parse(the1stScoreController.text);
+    if (tfm.the3rdTargetSuccess) {
+      turnMainMissionScore += int.parse(tfm.the3rdScoreController.text);
     }
 
-    int vp = int.parse(vpScoreController.value.text);
+    int vp = int.parse(tfm.vpController.value.text);
     vp += turnMainMissionScore;
-    vpScoreController.text = vp.toString();
+    tfm.vpController.text = vp.toString();
 
     setState(() {
-      the1stTargetSuccess = false;
-      the2ndTargetSuccess = false;
-      the3rdTargetSuccess = false;
+      tfm.the1stTargetSuccess = false;
+      tfm.the2ndTargetSuccess = false;
+      tfm.the3rdTargetSuccess = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    Row the1stLine = new Row(
-      children: [
-        Expanded(
-            flex: 6,
-            child: TextField(
-              decoration: InputDecoration(labelText: "第一目标描述"),
-            )),
-        Expanded(
-            flex: 4,
-            child: TextField(
-                decoration: InputDecoration(labelText: "第一目标分数"),
-                keyboardType: TextInputType.number,
-                controller: the1stScoreController)),
-        Expanded(
-            flex: 2,
-            child: Checkbox(
-              value: this.the1stTargetSuccess,
-              onChanged: (bool value) {
-                setState(() {
-                  this.the1stTargetSuccess = value;
-                });
-              },
-            ))
-      ],
-    );
+    Row the1stLine = buildNewRow("第一", tfm.the1stTargetSuccess, tfm.the1stScoreController);
 
-    Row the2ndLine = new Row(
-      children: [
-        Expanded(
-            flex: 6,
-            child: TextField(
-              decoration: InputDecoration(labelText: "第二目标描述"),
-            )),
-        Expanded(
-            flex: 4,
-            child: TextField(
-                decoration: InputDecoration(labelText: "第二目标分数"),
-                keyboardType: TextInputType.number,
-                controller: the2ndScoreController)),
-        Expanded(
-            flex: 2,
-            child: Checkbox(
-              value: this.the2ndTargetSuccess,
-              onChanged: (bool value) {
-                setState(() {
-                  this.the2ndTargetSuccess = value;
-                });
-              },
-            ))
-      ],
-    );
+    Row the2ndLine = buildNewRow("第二", tfm.the2ndTargetSuccess, tfm.the2ndScoreController);
 
-    Row the3rdLine = new Row(
-      children: [
-        Expanded(
-            flex: 6,
-            child: TextField(
-              decoration: InputDecoration(labelText: "第三目标描述"),
-            )),
-        Expanded(
-            flex: 4,
-            child: TextField(
-                decoration: InputDecoration(labelText: "第三目标分数"),
-                keyboardType: TextInputType.number,
-                controller: the3rdScoreController)),
-        Expanded(
-            flex: 2,
-            child: Checkbox(
-              value: this.the3rdTargetSuccess,
-              onChanged: (bool value) {
-                setState(() {
-                  this.the3rdTargetSuccess = value;
-                });
-              },
-            ))
-      ],
-    );
+    Row the3rdLine = buildNewRow("第三", tfm.the3rdTargetSuccess, tfm.the3rdScoreController);
 
     Column c = new Column(children: [
+      new Padding(
+          child: new Row(
+            children: [
+              new Expanded(child: TextField(
+                decoration: InputDecoration(labelText: "主任务描述")),
+                  flex: 8),
+              new Expanded(child: RaisedButton(
+                child: new Padding(child:new Text("Roll一个（暂不可用）"), padding: EdgeInsets.only(left: 5),),
+                onPressed: () {
+                  calculateMainMissionScore();
+                },
+              ), flex: 4)
+            ],
+          ),
+          padding: EdgeInsets.only(bottom: 5)),
       the1stLine,
       the2ndLine,
       the3rdLine,
-      new Padding(
-          child: new RaisedButton(
-            child: new Text("计算"),
-            onPressed: () {
-              calculateMainMissionScore();
-            },
-          ),
-          padding: EdgeInsets.all(20.0)),
+
     ]);
     return c;
+  }
+
+  Row buildNewRow(String s, bool status, TextEditingController controller) {
+    return new Row(
+      children: [
+        Expanded(
+          flex: 6,
+          child: new Padding(padding: EdgeInsets.only(right: 15),
+              child: TextField(
+                decoration: InputDecoration(labelText: s + "目标描述"),
+              )
+          ),
+        ),
+        Expanded(
+            flex: 4,
+            child: TextField(
+                decoration: InputDecoration(labelText: s + "目标分数"),
+                keyboardType: TextInputType.number,
+                controller: controller)),
+        Expanded(
+            flex: 2,
+            child: Checkbox(
+              value: status,
+              onChanged: (bool value) {
+                setState(() {
+                  status = value;
+                });
+              },
+            ))
+      ],
+    );
   }
 }
