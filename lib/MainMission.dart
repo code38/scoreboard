@@ -45,11 +45,11 @@ class _MainMissionState extends State<MainMission> {
 
   @override
   Widget build(BuildContext context) {
-    Row the1stLine = buildNewRow("第一", tfm.the1stTargetSuccess, tfm.the1stScoreController);
+    Row the1stLine = buildNewRow("第一", "1", tfm.the1stScoreController, tfm);
 
-    Row the2ndLine = buildNewRow("第二", tfm.the2ndTargetSuccess, tfm.the2ndScoreController);
+    Row the2ndLine = buildNewRow("第二", "2", tfm.the2ndScoreController, tfm);
 
-    Row the3rdLine = buildNewRow("第三", tfm.the3rdTargetSuccess, tfm.the3rdScoreController);
+    Row the3rdLine = buildNewRow("第三", "3", tfm.the3rdScoreController, tfm);
 
     Column c = new Column(children: [
       new Padding(
@@ -75,7 +75,7 @@ class _MainMissionState extends State<MainMission> {
     return c;
   }
 
-  Row buildNewRow(String s, bool status, TextEditingController controller) {
+  Row buildNewRow(String s, String stateName, TextEditingController controller, TextFieldManager textFieldManager) {
     return new Row(
       children: [
         Expanded(
@@ -95,10 +95,10 @@ class _MainMissionState extends State<MainMission> {
         Expanded(
             flex: 2,
             child: Checkbox(
-              value: status,
+              value: tfm.getStatus(stateName),
               onChanged: (bool value) {
                 setState(() {
-                  status = value;
+                  tfm.setStatus(stateName, value);
                 });
               },
             ))

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'TextFieldManager.dart';
@@ -55,103 +56,43 @@ class _SubMissionState extends State<SubMission> {
 
   @override
   Widget build(BuildContext context) {
-    Row the1stLine = new Row(
-      children: [
-        Expanded(
-            flex: 6,
-            child: TextField(
-              decoration: InputDecoration(labelText: "子任务描述"),
-            )),
-        Expanded(
-            flex: 3,
-            child: TextField(
-                decoration: InputDecoration(labelText: "子任务分数"),
-                keyboardType: TextInputType.number,
-                controller: tfm.the1stTotalScoreController)),
-        Expanded(
-            flex: 2,
-            child: new Padding(
-                child: new RaisedButton(
-                  child: new Text("+"),
-                  onPressed: () {
-                    addScore(1);
-                  },
-                ),
-                padding: EdgeInsets.all(5.0))),
-        Expanded(
-            flex: 3,
-            child: TextField(
-                decoration: InputDecoration(labelText: "获得分数"),
-                keyboardType: TextInputType.number,
-                controller: tfm.the1stTurnScoreController))
-      ],
-    );
-
-    Row the2ndLine = new Row(
-      children: [
-        Expanded(
-            flex: 6,
-            child: TextField(
-              decoration: InputDecoration(labelText: "子任务描述"),
-            )),
-        Expanded(
-            flex: 3,
-            child: TextField(
-                decoration: InputDecoration(labelText: "子任务分数"),
-                keyboardType: TextInputType.number,
-                controller: tfm.the2ndTotalScoreController)),
-        Expanded(
-            flex: 2,
-            child: new Padding(
-                child: new RaisedButton(
-                  child: new Text("+"),
-                  onPressed: () {
-                    addScore(2);
-                  },
-                ),
-                padding: EdgeInsets.all(5.0))),
-        Expanded(
-            flex: 3,
-            child: TextField(
-                decoration: InputDecoration(labelText: "获得分数"),
-                keyboardType: TextInputType.number,
-                controller: tfm.the2ndTurnScoreController))
-      ],
-    );
-
-    Row the3rdLine = new Row(
-      children: [
-        Expanded(
-            flex: 6,
-            child: TextField(
-              decoration: InputDecoration(labelText: "子任务描述"),
-            )),
-        Expanded(
-            flex: 3,
-            child: TextField(
-                decoration: InputDecoration(labelText: "子任务分数"),
-                keyboardType: TextInputType.number,
-                controller: tfm.the3rdTotalScoreController)),
-        Expanded(
-            flex: 2,
-            child: new Padding(
-                child: new RaisedButton(
-                  child: new Text("+"),
-                  onPressed: () {
-                    addScore(3);
-                  },
-                ),
-                padding: EdgeInsets.all(5.0))),
-        Expanded(
-            flex: 3,
-            child: TextField(
-                decoration: InputDecoration(labelText: "获得分数"),
-                keyboardType: TextInputType.number,
-                controller: tfm.the3rdTurnScoreController))
-      ],
-    );
+    Row the1stLine = buildNewRow(tfm.the1stTotalScoreController, tfm.the1stTurnScoreController);
+    Row the2ndLine = buildNewRow(tfm.the2ndTotalScoreController, tfm.the2ndTurnScoreController);
+    Row the3rdLine = buildNewRow(tfm.the3rdTotalScoreController, tfm.the3rdTurnScoreController);
 
     Column c = new Column(children: [the1stLine, the2ndLine, the3rdLine]);
     return c;
+  }
+
+  Row buildNewRow(TextEditingController totalScoreController, TextEditingController turnScoreController) {
+    return new Row(
+      children: [
+        Expanded(
+            flex: 6,
+            child: TextField(
+              decoration: InputDecoration(labelText: "子任务描述"),
+            )),
+        Expanded(
+            flex: 3,
+            child: TextField(
+                decoration: InputDecoration(labelText: "子任务分数"),
+                keyboardType: TextInputType.number,
+                controller: totalScoreController,
+                enabled: false,)),
+        Expanded(
+          flex: 3,
+          child: new Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: TextField(
+                  decoration: InputDecoration(
+                      labelText: "获得分数"
+                  ),
+                  keyboardType: TextInputType.number,
+                  controller: turnScoreController
+              )
+          ),
+        )
+      ],
+    );
   }
 }
