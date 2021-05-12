@@ -54,8 +54,9 @@ class TextFieldManager{
   bool if3rdSuccess() => the3rdTargetSuccess;
 
   void nextTurn(){
-    PlayerScore thisPlayer = null;
-    PlayerScore nextPlayer = null;
+    PlayerScore thisPlayer;
+    PlayerScore nextPlayer;
+
     if(turn != 11 && turn != 0){
       if(turn == 1 || turn % 2 == 1){
         thisPlayer = player1;

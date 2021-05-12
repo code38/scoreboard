@@ -46,9 +46,7 @@ class _MainMissionState extends State<MainMission> {
   @override
   Widget build(BuildContext context) {
     Row the1stLine = buildNewRow("第一", "1", tfm.the1stScoreController, tfm);
-
     Row the2ndLine = buildNewRow("第二", "2", tfm.the2ndScoreController, tfm);
-
     Row the3rdLine = buildNewRow("第三", "3", tfm.the3rdScoreController, tfm);
 
     Column c = new Column(children: [
@@ -59,7 +57,10 @@ class _MainMissionState extends State<MainMission> {
                 decoration: InputDecoration(labelText: "主任务描述")),
                   flex: 8),
               new Expanded(child: RaisedButton(
-                child: new Padding(child:new Text("Roll一个（暂不可用）"), padding: EdgeInsets.only(left: 5),),
+                child: new Padding(
+                  child:new Text("Roll一个（暂不可用）"),
+                  padding: EdgeInsets.only(left: 5),
+                ),
                 onPressed: () {
                   calculateMainMissionScore();
                 },
@@ -70,7 +71,6 @@ class _MainMissionState extends State<MainMission> {
       the1stLine,
       the2ndLine,
       the3rdLine,
-
     ]);
     return c;
   }
@@ -101,7 +101,8 @@ class _MainMissionState extends State<MainMission> {
                   tfm.setStatus(stateName, value);
                 });
               },
-            ))
+            )
+        )
       ],
     );
   }
