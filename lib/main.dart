@@ -26,6 +26,7 @@ class TotalState extends State<MyApp> {
       title: '40K Score Board',
       home: new Scaffold(
           appBar: new AppBar(
+            backgroundColor: Colors.blue,
             title: new Text('40K Score Board',
                 textAlign: TextAlign.left),
           ),
