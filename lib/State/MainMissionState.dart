@@ -20,6 +20,9 @@ class MainMissionState extends State<MainMission> {
   TextEditingController the3rdScoreController =
   new TextEditingController(text: '0');
 
+  TextEditingController mainMissionNameController =
+  new TextEditingController(text: '主任务描述');
+
   MainMissionState(TextFieldManager tfm) {
     this._tfm = tfm;
     _tfm.mainMissionState = this;
@@ -36,7 +39,9 @@ class MainMissionState extends State<MainMission> {
           child: new Row(
             children: [
               new Expanded(child: TextField(
-                decoration: InputDecoration(labelText: "主任务描述")),
+                  decoration: InputDecoration(labelText: "主任务描述"),
+                                              controller: mainMissionNameController,
+              ),
                   flex: 8),
               new Expanded(child: RaisedButton(
                 child: new Padding(

@@ -13,11 +13,11 @@ class SubMissionState extends State<SubMission> {
   TextEditingController the3rdTurnScoreController =
   new TextEditingController(text: '0');
   TextEditingController the1stMissionController =
-  new TextEditingController(text: '0');
+  new TextEditingController(text: '子任务1');
   TextEditingController the2ndMissionController =
-  new TextEditingController(text: '0');
+  new TextEditingController(text: '子任务2');
   TextEditingController the3rdMissionController =
-  new TextEditingController(text: '0');
+  new TextEditingController(text: '子任务3');
 
   SubMissionState(TextFieldManager tfm) {
     this._tfm = tfm;

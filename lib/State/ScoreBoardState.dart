@@ -68,7 +68,7 @@ class ScoreBoardState extends State<ScoreBoard> {
                     children: [
                       Expanded(
                           child: new Text(
-                        "主任务",
+                            _tfm.mainMissionState.mainMissionNameController.text,
                         style: TextStyle(
                           color: Colors.grey,
                         ),
@@ -76,7 +76,7 @@ class ScoreBoardState extends State<ScoreBoard> {
                       )),
                       Expanded(
                           child: new Text(
-                        "子任务1",
+                        _tfm.subMissionState.the1stMissionController.text,
                         style: TextStyle(
                           color: Colors.grey,
                         ),
@@ -84,7 +84,7 @@ class ScoreBoardState extends State<ScoreBoard> {
                       )),
                       Expanded(
                           child: new Text(
-                        "子任务2",
+                        _tfm.subMissionState.the2ndMissionController.text,
                         style: TextStyle(
                           color: Colors.grey,
                         ),
@@ -92,7 +92,7 @@ class ScoreBoardState extends State<ScoreBoard> {
                       )),
                       Expanded(
                           child: new Text(
-                        "子任务3",
+                        _tfm.subMissionState.the3rdMissionController.text,
                         style: TextStyle(
                           color: Colors.grey,
                         ),
@@ -136,7 +136,7 @@ class ScoreBoardState extends State<ScoreBoard> {
             color: Colors.blue,
             child: SizedBox(
               width: double.infinity,
-              child: new Text("下一回合",textAlign: TextAlign.center,),
+              child: new Text(_tfm.nextTurnBottomName, textAlign: TextAlign.center,),
           ),
         ),
       ],
