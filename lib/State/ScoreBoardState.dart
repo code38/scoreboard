@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:scoreboard/TextFieldManager.dart';
+import 'package:scoreboard/widget/ScoreBoard.dart';
 
-class ScoreBoard extends StatefulWidget {
-  TextFieldManager tfm;
+import 'TextFieldManager.dart';
 
-  ScoreBoard(TextFieldManager textFieldManager) {
-    this.tfm = textFieldManager;
-  }
+class ScoreBoardState extends State<ScoreBoard> {
+  TextFieldManager _tfm;
 
-  @override
-  State<StatefulWidget> createState() {
-    return _ScoreBoardState(tfm);
-  }
-}
+  int totalScore = 0;
+  int mainScore = 0;
+  int sub1Score = 0;
+  int sub2Score = 0;
+  int sub3Score = 0;
 
-class _ScoreBoardState extends State<ScoreBoard> {
-  TextFieldManager tfm;
-
-  _ScoreBoardState(TextFieldManager textFieldManager) {
-    this.tfm = textFieldManager;
+  ScoreBoardState(TextFieldManager textFieldManager) {
+    this._tfm = textFieldManager;
+    _tfm.scoreBoardState = this;
   }
 
   @override
@@ -36,7 +32,7 @@ class _ScoreBoardState extends State<ScoreBoard> {
         Center(
             child: Padding(
           child: new Text(
-            "第一回合-上半(玩家A)",
+            _tfm.currTurn,
             style: TextStyle(
                 fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
@@ -54,7 +50,7 @@ class _ScoreBoardState extends State<ScoreBoard> {
         Center(
           child: Padding(
             child: new Text(
-              "21",
+              getDisplayVal(totalScore),
               style: TextStyle(
                   fontSize: 32,
                   color: Colors.black,
@@ -108,22 +104,22 @@ class _ScoreBoardState extends State<ScoreBoard> {
                     children: [
                       Expanded(
                           child: new Text(
-                        "15",
+                        getDisplayVal(mainScore),
                         textAlign: TextAlign.center,
                       )),
                       Expanded(
                           child: new Text(
-                        "10",
+                        getDisplayVal(sub1Score),
                         textAlign: TextAlign.center,
                       )),
                       Expanded(
                           child: new Text(
-                        "5",
+                        getDisplayVal(sub2Score),
                         textAlign: TextAlign.center,
                       )),
                       Expanded(
                           child: new Text(
-                        "0",
+                        getDisplayVal(sub3Score),
                         textAlign: TextAlign.center,
                       )),
                     ],
@@ -132,7 +128,11 @@ class _ScoreBoardState extends State<ScoreBoard> {
               )),
         ),
           MaterialButton(
-            onPressed: () {tfm.nextTurn();},
+            onPressed: () {
+              setState(() {
+                _tfm.onClickNextTurnBottom();
+              });
+            },
             color: Colors.blue,
             child: SizedBox(
               width: double.infinity,
@@ -141,5 +141,21 @@ class _ScoreBoardState extends State<ScoreBoard> {
         ),
       ],
     );
+  }
+
+  String getDisplayVal(int num){
+    if(_tfm.inGame()) {
+      return "$num";
+    } else {
+      return "-";
+    }
+  }
+
+  void resetBoard(){
+    mainScore = 0;
+    sub1Score = 0;
+    sub2Score = 0;
+    sub3Score = 0;
+    totalScore = 0;
   }
 }

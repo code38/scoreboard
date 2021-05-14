@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:scoreboard/ScoreBoard.dart';
-import 'package:scoreboard/TextFieldManager.dart';
-import 'MainMission.dart';
-import 'SubMission.dart';
+import 'package:scoreboard/widget/ScoreBoard.dart';
+import 'State/TextFieldManager.dart';
+import 'widget/MainMission.dart';
+import 'widget/SubMission.dart';
 
 void main() => runApp(new MyApp());
 
@@ -39,7 +39,8 @@ class TotalState extends State<MyApp> {
                     children: [
                       makeNewBoard(scoreBoard),
                       makeNewBoard(mainMission),
-                      makeNewBoard(subMission)
+                      makeNewBoard(subMission),
+                      makeNewBoard(new TextField(decoration: InputDecoration(labelText: "备注"),)),
                     ],
                   ),
                 ),

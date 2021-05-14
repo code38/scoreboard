@@ -8,6 +8,10 @@ class PlayerScore{
   int _subMission2Score = 0;
   int _subMission3Score = 0;
 
+  PlayerScore(String playerName){
+    this.playerName = playerName;
+  }
+
   int get mainMissionScore => _mainMissionScore;
 
   set mainMissionScore(int value) {

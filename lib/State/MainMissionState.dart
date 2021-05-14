@@ -1,53 +1,35 @@
+
 import 'package:flutter/material.dart';
+import 'package:scoreboard/widget/MainMission.dart';
 
 import 'TextFieldManager.dart';
 
-class MainMission extends StatefulWidget {
-  TextFieldManager tfm;
+class MainMissionState extends State<MainMission> {
+  TextFieldManager _tfm;
 
-  MainMission(TextFieldManager tfm) {
-    this.tfm = tfm;
-  }
+  int _score = 0;
 
-  @override
-  _MainMissionState createState() => _MainMissionState(tfm);
-}
+  bool the1stTargetSuccess = false;
+  bool the2ndTargetSuccess = false;
+  bool the3rdTargetSuccess = false;
 
-class _MainMissionState extends State<MainMission> {
-  TextFieldManager tfm;
+  TextEditingController the1stScoreController =
+  new TextEditingController(text: '0');
+  TextEditingController the2ndScoreController =
+  new TextEditingController(text: '0');
+  TextEditingController the3rdScoreController =
+  new TextEditingController(text: '0');
 
-  _MainMissionState(TextFieldManager tfm) {
-    this.tfm = tfm;
-  }
-
-  void calculateMainMissionScore() {
-    int turnMainMissionScore = 0;
-    if (tfm.the1stTargetSuccess) {
-      turnMainMissionScore += int.parse(tfm.the1stScoreController.text);
-    }
-    if (tfm.the2ndTargetSuccess) {
-      turnMainMissionScore += int.parse(tfm.the2ndScoreController.text);
-    }
-    if (tfm.the3rdTargetSuccess) {
-      turnMainMissionScore += int.parse(tfm.the3rdScoreController.text);
-    }
-
-    int vp = int.parse(tfm.vpController.value.text);
-    vp += turnMainMissionScore;
-    tfm.vpController.text = vp.toString();
-
-    setState(() {
-      tfm.the1stTargetSuccess = false;
-      tfm.the2ndTargetSuccess = false;
-      tfm.the3rdTargetSuccess = false;
-    });
+  MainMissionState(TextFieldManager tfm) {
+    this._tfm = tfm;
+    _tfm.mainMissionState = this;
   }
 
   @override
   Widget build(BuildContext context) {
-    Row the1stLine = buildNewRow("第一", "1", tfm.the1stScoreController, tfm);
-    Row the2ndLine = buildNewRow("第二", "2", tfm.the2ndScoreController, tfm);
-    Row the3rdLine = buildNewRow("第三", "3", tfm.the3rdScoreController, tfm);
+    Row the1stLine = buildNewRow("第一", "1", the1stScoreController, _tfm);
+    Row the2ndLine = buildNewRow("第二", "2", the2ndScoreController, _tfm);
+    Row the3rdLine = buildNewRow("第三", "3", the3rdScoreController, _tfm);
 
     Column c = new Column(children: [
       new Padding(
@@ -62,7 +44,7 @@ class _MainMissionState extends State<MainMission> {
                   padding: EdgeInsets.only(left: 5),
                 ),
                 onPressed: () {
-                  calculateMainMissionScore();
+
                 },
               ), flex: 4)
             ],
@@ -95,10 +77,10 @@ class _MainMissionState extends State<MainMission> {
         Expanded(
             flex: 2,
             child: Checkbox(
-              value: tfm.getStatus(stateName),
+              value: _tfm.getStatus(stateName),
               onChanged: (bool value) {
                 setState(() {
-                  tfm.setStatus(stateName, value);
+                  _tfm.setStatus(stateName, value);
                 });
               },
             )
@@ -106,4 +88,6 @@ class _MainMissionState extends State<MainMission> {
       ],
     );
   }
+
+
 }
