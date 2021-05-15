@@ -14,7 +14,7 @@ class ScoreBoardState extends State<ScoreBoard> {
 
   ScoreBoardState(TextFieldManager textFieldManager) {
     this._tfm = textFieldManager;
-    _tfm.scoreBoardState = this;
+    this._tfm.scoreBoardState = this;
   }
 
   @override
@@ -31,14 +31,14 @@ class ScoreBoardState extends State<ScoreBoard> {
         ),
         Center(
             child: Padding(
-          child: new Text(
-            _tfm.currTurn,
-            style: TextStyle(
-                fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
-          padding: EdgeInsets.all(16),
-        )),
+              child: new Text(
+                _tfm.currTurn,
+                style: TextStyle(
+                    fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              padding: EdgeInsets.all(16),
+            )),
         Align(
           alignment: Alignment.centerLeft,
           child: new Text(
@@ -48,16 +48,20 @@ class ScoreBoardState extends State<ScoreBoard> {
           ),
         ),
         Center(
-          child: Padding(
-            child: new Text(
-              getDisplayVal(totalScore),
-              style: TextStyle(
-                  fontSize: 32,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold),
+            child: Padding(child: new InkWell(
+                onTap: (){setState(() {
+                  _tfm.switchDisplayScore();
+                });},
+                child: new Text(
+                  getDisplayVal(totalScore),
+                  style: TextStyle(
+                      fontSize: 32,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                )
             ),
-            padding: EdgeInsets.all(16),
-          ),
+              padding: EdgeInsets.all(16),
+            )
         ),
         Center(
           child: Padding(
@@ -69,74 +73,74 @@ class ScoreBoardState extends State<ScoreBoard> {
                       Expanded(
                           child: new Text(
                             _tfm.mainMissionState.mainMissionNameController.text,
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
-                        textAlign: TextAlign.center,
-                      )),
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                            textAlign: TextAlign.center,
+                          )),
                       Expanded(
                           child: new Text(
-                        _tfm.subMissionState.the1stMissionController.text,
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
-                        textAlign: TextAlign.center,
-                      )),
+                            _tfm.subMissionState.the1stMissionController.text,
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                            textAlign: TextAlign.center,
+                          )),
                       Expanded(
                           child: new Text(
-                        _tfm.subMissionState.the2ndMissionController.text,
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
-                        textAlign: TextAlign.center,
-                      )),
+                            _tfm.subMissionState.the2ndMissionController.text,
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                            textAlign: TextAlign.center,
+                          )),
                       Expanded(
                           child: new Text(
-                        _tfm.subMissionState.the3rdMissionController.text,
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
-                        textAlign: TextAlign.center,
-                      )),
+                            _tfm.subMissionState.the3rdMissionController.text,
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                            textAlign: TextAlign.center,
+                          )),
                     ],
                   ),
                   new Row(
                     children: [
                       Expanded(
                           child: new Text(
-                        getDisplayVal(mainScore),
-                        textAlign: TextAlign.center,
-                      )),
+                            getDisplayVal(mainScore),
+                            textAlign: TextAlign.center,
+                          )),
                       Expanded(
                           child: new Text(
-                        getDisplayVal(sub1Score),
-                        textAlign: TextAlign.center,
-                      )),
+                            getDisplayVal(sub1Score),
+                            textAlign: TextAlign.center,
+                          )),
                       Expanded(
                           child: new Text(
-                        getDisplayVal(sub2Score),
-                        textAlign: TextAlign.center,
-                      )),
+                            getDisplayVal(sub2Score),
+                            textAlign: TextAlign.center,
+                          )),
                       Expanded(
                           child: new Text(
-                        getDisplayVal(sub3Score),
-                        textAlign: TextAlign.center,
-                      )),
+                            getDisplayVal(sub3Score),
+                            textAlign: TextAlign.center,
+                          )),
                     ],
                   )
                 ],
               )),
         ),
-          MaterialButton(
-            onPressed: () {
-              setState(() {
-                _tfm.onClickNextTurnBottom();
-              });
-            },
-            color: Colors.blue,
-            child: SizedBox(
-              width: double.infinity,
-              child: new Text(_tfm.nextTurnBottomName, textAlign: TextAlign.center,),
+        MaterialButton(
+          onPressed: () {
+            setState(() {
+              _tfm.onClickNextTurnBottom();
+            });
+          },
+          color: Colors.blue,
+          child: SizedBox(
+            width: double.infinity,
+            child: new Text(_tfm.nextTurnBottomName, textAlign: TextAlign.center,),
           ),
         ),
       ],

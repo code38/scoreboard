@@ -20,7 +20,7 @@ class SubMissionState extends State<SubMission> {
 
   SubMissionState(TextFieldManager tfm) {
     this._tfm = tfm;
-    _tfm.subMissionState = this;
+    this._tfm.subMissionState = this;
   }
 
   @override

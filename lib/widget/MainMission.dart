@@ -8,8 +8,9 @@ class MainMission extends StatefulWidget {
 
   MainMission(TextFieldManager tfm) {
     this.tfm = tfm;
+    this.tfm.mainMissionState = MainMissionState(tfm);;
   }
 
   @override
-  State<StatefulWidget> createState() => MainMissionState(tfm);
+  State<StatefulWidget> createState() => this.tfm.mainMissionState;
 }

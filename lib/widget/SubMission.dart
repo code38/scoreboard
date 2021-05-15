@@ -8,9 +8,10 @@ class SubMission extends StatefulWidget {
 
   SubMission(TextFieldManager tfm) {
     this.tfm = tfm;
+    this.tfm.subMissionState = SubMissionState(tfm);
   }
 
   @override
-  State<StatefulWidget> createState() => SubMissionState(tfm);
+  State<StatefulWidget> createState() => this.tfm.subMissionState;
 }
 

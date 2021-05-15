@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:scoreboard/State/MainMissionState.dart';
 import 'package:scoreboard/State/ScoreBoardState.dart';
 import 'package:scoreboard/State/SubMissionState.dart';
+import 'package:scoreboard/constinct/InDisplay.dart';
 import 'package:scoreboard/entity/PlayerScore.dart';
 
 class TextFieldManager{
@@ -20,8 +20,11 @@ class TextFieldManager{
     "第五回合下半",
     "结束"
   ];
+
   String currTurn;
   String nextTurnBottomName = "开始";
+
+  int inDisplay = InDisplay.TURN_PLAYER;
 
   PlayerScore player1 = new PlayerScore("玩家1");
   PlayerScore player2 = new PlayerScore("玩家2");
@@ -81,6 +84,7 @@ class TextFieldManager{
     calcScore(thisPlayer);
     updateScoreBoard(nextPlayer);
 
+    this.inDisplay = InDisplay.TURN_PLAYER;
     this.currTurn = turnDict[++turn] + "-" + nextPlayer.playerName;
   }
 
@@ -151,6 +155,47 @@ class TextFieldManager{
       return true;
     } else {
       return false;
+    }
+  }
+
+  void switchDisplayScore() {
+    if(inGame()){
+      if(this.inDisplay == InDisplay.TURN_PLAYER){
+        PlayerScore thisPlayer;
+        if(player2.isUser){
+          thisPlayer = player2;
+        } else {
+          thisPlayer = player1;
+        }
+        updateScoreBoard(thisPlayer);
+
+        this.inDisplay = InDisplay.USER_PLAYER;
+        this.currTurn = thisPlayer.playerName;
+      } else if (this.inDisplay == InDisplay.USER_PLAYER){
+        PlayerScore thisPlayer;
+        if(player2.isUser){
+          thisPlayer = player1;
+        } else {
+          thisPlayer = player2;
+        }
+        updateScoreBoard(thisPlayer);
+
+        this.inDisplay = InDisplay.ENEMY_PLAYER;
+        this.currTurn = thisPlayer.playerName;
+      } else if(this.inDisplay == InDisplay.ENEMY_PLAYER){
+        PlayerScore thisPlayer;
+
+        if(turn == 1 || turn % 2 == 1){
+          thisPlayer = player1;
+        } else {
+          thisPlayer = player2;
+        }
+
+        updateScoreBoard(thisPlayer);
+
+        this.inDisplay = InDisplay.TURN_PLAYER;
+        this.currTurn = turnDict[turn] + "-" + thisPlayer.playerName;
+      }
     }
   }
 }

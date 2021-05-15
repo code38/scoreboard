@@ -3,13 +3,14 @@ import 'package:scoreboard/State/ScoreBoardState.dart';
 import 'package:scoreboard/entity/TextFieldManager.dart';
 
 class ScoreBoard extends StatefulWidget {
-  TextFieldManager tfm;
+  TextFieldManager _tfm;
 
   ScoreBoard(TextFieldManager textFieldManager) {
-    this.tfm = textFieldManager;
+    this._tfm = textFieldManager;
+    this._tfm.scoreBoardState = ScoreBoardState(_tfm);;
   }
 
   @override
-  State<StatefulWidget> createState() => ScoreBoardState(tfm);
+  State<StatefulWidget> createState() => this._tfm.scoreBoardState;
 }
 
