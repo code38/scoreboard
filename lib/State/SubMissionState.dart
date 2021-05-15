@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:scoreboard/entity/TextFieldManager.dart';
 import 'package:scoreboard/widget/SubMission.dart';
-
-import 'TextFieldManager.dart';
 
 class SubMissionState extends State<SubMission> {
   TextFieldManager _tfm;

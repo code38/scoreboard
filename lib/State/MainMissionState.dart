@@ -1,13 +1,10 @@
-
 import 'package:flutter/material.dart';
+import 'package:scoreboard/entity/TextFieldManager.dart';
 import 'package:scoreboard/widget/MainMission.dart';
 
-import 'TextFieldManager.dart';
 
 class MainMissionState extends State<MainMission> {
   TextFieldManager _tfm;
-
-  int _score = 0;
 
   bool the1stTargetSuccess = false;
   bool the2ndTargetSuccess = false;
@@ -39,8 +36,8 @@ class MainMissionState extends State<MainMission> {
           child: new Row(
             children: [
               new Expanded(child: TextField(
+                controller: mainMissionNameController,
                   decoration: InputDecoration(labelText: "主任务描述"),
-                                              controller: mainMissionNameController,
               ),
                   flex: 8),
               new Expanded(child: RaisedButton(
@@ -93,6 +90,4 @@ class MainMissionState extends State<MainMission> {
       ],
     );
   }
-
-
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:scoreboard/entity/TextFieldManager.dart';
+import 'package:scoreboard/widget/MainMission.dart';
 import 'package:scoreboard/widget/ScoreBoard.dart';
-import 'State/TextFieldManager.dart';
-import 'widget/MainMission.dart';
-import 'widget/SubMission.dart';
+import 'package:scoreboard/widget/SubMission.dart';
 
 void main() => runApp(new MyApp());
 

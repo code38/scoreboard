@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:scoreboard/entity/TextFieldManager.dart';
 import 'package:scoreboard/widget/ScoreBoard.dart';
 
-import 'TextFieldManager.dart';
 
 class ScoreBoardState extends State<ScoreBoard> {
   TextFieldManager _tfm;

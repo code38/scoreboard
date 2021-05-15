@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'MainMissionState.dart';
-import 'PlayerScore.dart';
-import 'ScoreBoardState.dart';
-import 'SubMissionState.dart';
+import 'package:scoreboard/State/MainMissionState.dart';
+import 'package:scoreboard/State/ScoreBoardState.dart';
+import 'package:scoreboard/State/SubMissionState.dart';
+import 'package:scoreboard/entity/PlayerScore.dart';
 
 class TextFieldManager{
   int turn = 0;
