@@ -1,35 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:scoreboard/entity/TextFieldManager.dart';
+import 'package:scoreboard/service/TextFieldManager.dart';
+import 'package:scoreboard/utils/DisplayUtil.dart';
 import 'package:scoreboard/widget/MainMission.dart';
 
 
 class MainMissionState extends State<MainMission> {
   TextFieldManager _tfm;
 
-  bool the1stTargetSuccess = false;
-  bool the2ndTargetSuccess = false;
-  bool the3rdTargetSuccess = false;
+  TextEditingController the1stScoreController;
+  TextEditingController the2ndScoreController;
+  TextEditingController the3rdScoreController;
+  TextEditingController the1stTargetController;
+  TextEditingController the2ndTargetController;
+  TextEditingController the3rdTargetController;
 
-  TextEditingController the1stScoreController =
-  new TextEditingController(text: '0');
-  TextEditingController the2ndScoreController =
-  new TextEditingController(text: '0');
-  TextEditingController the3rdScoreController =
-  new TextEditingController(text: '0');
-
-  TextEditingController mainMissionNameController =
-  new TextEditingController(text: '主任务描述');
+  TextEditingController mainMissionNameController;
 
   MainMissionState(TextFieldManager tfm) {
     this._tfm = tfm;
     _tfm.mainMissionState = this;
+
+    the1stScoreController =
+    new TextEditingController(text: DisplayUtil.getDisplayVal(_tfm, _tfm.status.the1stMissionTargetScore));
+    the2ndScoreController =
+    new TextEditingController(text: DisplayUtil.getDisplayVal(_tfm, _tfm.status.the3rdMissionTargetScore));
+    the3rdScoreController =
+    new TextEditingController(text: DisplayUtil.getDisplayVal(_tfm, _tfm.status.the3rdMissionTargetScore));
+
+    the1stTargetController = new TextEditingController(text: DisplayUtil.getDisplayStr(_tfm.status.the1stMissionTargetName));
+    the2ndTargetController = new TextEditingController(text: DisplayUtil.getDisplayStr(_tfm.status.the2ndMissionTargetName));
+    the3rdTargetController = new TextEditingController(text: DisplayUtil.getDisplayStr(_tfm.status.the3rdMissionTargetName));
+
+    mainMissionNameController =
+    new TextEditingController(text: _tfm.status.mainMissionTargetName);
   }
 
   @override
   Widget build(BuildContext context) {
-    Row the1stLine = buildNewRow("第一", "1", the1stScoreController, _tfm);
-    Row the2ndLine = buildNewRow("第二", "2", the2ndScoreController, _tfm);
-    Row the3rdLine = buildNewRow("第三", "3", the3rdScoreController, _tfm);
+    Row the1stLine = buildNewRow("第一", "1", the1stScoreController, the1stTargetController, _tfm);
+    Row the2ndLine = buildNewRow("第二", "2", the2ndScoreController, the2ndTargetController, _tfm);
+    Row the3rdLine = buildNewRow("第三", "3", the3rdScoreController, the3rdTargetController, _tfm);
 
     Column c = new Column(children: [
       new Padding(
@@ -40,14 +50,12 @@ class MainMissionState extends State<MainMission> {
                   decoration: InputDecoration(labelText: "主任务描述"),
               ),
                   flex: 8),
-              new Expanded(child: RaisedButton(
+              new Expanded(child: MaterialButton(
                 child: new Padding(
-                  child:new Text("Roll一个（暂不可用）"),
+                  child:new Text("Roll一个"),
                   padding: EdgeInsets.only(left: 5),
                 ),
-                onPressed: () {
-
-                },
+                onPressed: null,
               ), flex: 4)
             ],
           ),
@@ -59,7 +67,10 @@ class MainMissionState extends State<MainMission> {
     return c;
   }
 
-  Row buildNewRow(String s, String stateName, TextEditingController controller, TextFieldManager textFieldManager) {
+  Row buildNewRow(String s, String stateName,
+      TextEditingController scoreController,
+      TextEditingController targetController,
+      TextFieldManager textFieldManager) {
     return new Row(
       children: [
         Expanded(
@@ -67,6 +78,7 @@ class MainMissionState extends State<MainMission> {
           child: new Padding(padding: EdgeInsets.only(right: 15),
               child: TextField(
                 decoration: InputDecoration(labelText: s + "目标描述"),
+                  controller: targetController
               )
           ),
         ),
@@ -75,7 +87,7 @@ class MainMissionState extends State<MainMission> {
             child: TextField(
                 decoration: InputDecoration(labelText: s + "目标分数"),
                 keyboardType: TextInputType.number,
-                controller: controller)),
+                controller: scoreController)),
         Expanded(
             flex: 2,
             child: Checkbox(

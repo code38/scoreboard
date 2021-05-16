@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:scoreboard/entity/TextFieldManager.dart';
+import 'package:scoreboard/State/SubMissionState.dart';
+import 'package:scoreboard/constant/ButttomName.dart';
+import 'package:scoreboard/constant/InDisplay.dart';
+import 'package:scoreboard/entity/PlayerScore.dart';
+import 'package:scoreboard/service/TextFieldManager.dart';
+import 'package:scoreboard/utils/DisplayUtil.dart';
 import 'package:scoreboard/widget/ScoreBoard.dart';
 
 
 class ScoreBoardState extends State<ScoreBoard> {
   TextFieldManager _tfm;
-
-  int totalScore = 0;
-  int mainScore = 0;
-  int sub1Score = 0;
-  int sub2Score = 0;
-  int sub3Score = 0;
+  PlayerScore player;
 
   ScoreBoardState(TextFieldManager textFieldManager) {
     this._tfm = textFieldManager;
@@ -19,6 +19,15 @@ class ScoreBoardState extends State<ScoreBoard> {
 
   @override
   Widget build(BuildContext context) {
+    PlayerScore player = this.player;
+    if(player == null) {
+      player = _tfm.status.getCurrPlayer();
+    }
+
+    int totalScore = player.subMission3Score + player.subMission2Score
+        + player.subMission1Score + player.mainMissionScore;
+
+    this.player = null;
     return new Column(
       children: [
         Align(
@@ -32,7 +41,7 @@ class ScoreBoardState extends State<ScoreBoard> {
         Center(
             child: Padding(
               child: new Text(
-                _tfm.currTurn,
+                getCurrTurnName(),
                 style: TextStyle(
                     fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
@@ -53,7 +62,7 @@ class ScoreBoardState extends State<ScoreBoard> {
                   _tfm.switchDisplayScore();
                 });},
                 child: new Text(
-                  getDisplayVal(totalScore),
+                  DisplayUtil.getDisplayVal(_tfm, totalScore),
                   style: TextStyle(
                       fontSize: 32,
                       color: Colors.black,
@@ -72,7 +81,7 @@ class ScoreBoardState extends State<ScoreBoard> {
                     children: [
                       Expanded(
                           child: new Text(
-                            _tfm.mainMissionState.mainMissionNameController.text,
+                            DisplayUtil.getDisplayStr(_tfm.status.mainMissionTargetName),
                             style: TextStyle(
                               color: Colors.grey,
                             ),
@@ -80,7 +89,7 @@ class ScoreBoardState extends State<ScoreBoard> {
                           )),
                       Expanded(
                           child: new Text(
-                            _tfm.subMissionState.the1stMissionController.text,
+                            DisplayUtil.getDisplayStr(player.subMission1Desc),
                             style: TextStyle(
                               color: Colors.grey,
                             ),
@@ -88,7 +97,7 @@ class ScoreBoardState extends State<ScoreBoard> {
                           )),
                       Expanded(
                           child: new Text(
-                            _tfm.subMissionState.the2ndMissionController.text,
+                            DisplayUtil.getDisplayStr(player.subMission2Desc),
                             style: TextStyle(
                               color: Colors.grey,
                             ),
@@ -96,7 +105,7 @@ class ScoreBoardState extends State<ScoreBoard> {
                           )),
                       Expanded(
                           child: new Text(
-                            _tfm.subMissionState.the3rdMissionController.text,
+                            DisplayUtil.getDisplayStr(player.subMission3Desc),
                             style: TextStyle(
                               color: Colors.grey,
                             ),
@@ -108,22 +117,22 @@ class ScoreBoardState extends State<ScoreBoard> {
                     children: [
                       Expanded(
                           child: new Text(
-                            getDisplayVal(mainScore),
+                            DisplayUtil.getDisplayVal(_tfm, player.mainMissionScore),
                             textAlign: TextAlign.center,
                           )),
                       Expanded(
                           child: new Text(
-                            getDisplayVal(sub1Score),
+                            DisplayUtil.getDisplayVal(_tfm, player.subMission1Score),
                             textAlign: TextAlign.center,
                           )),
                       Expanded(
                           child: new Text(
-                            getDisplayVal(sub2Score),
+                            DisplayUtil.getDisplayVal(_tfm, player.subMission2Score),
                             textAlign: TextAlign.center,
                           )),
                       Expanded(
                           child: new Text(
-                            getDisplayVal(sub3Score),
+                            DisplayUtil.getDisplayVal(_tfm, player.subMission3Score),
                             textAlign: TextAlign.center,
                           )),
                     ],
@@ -140,26 +149,44 @@ class ScoreBoardState extends State<ScoreBoard> {
           color: Colors.blue,
           child: SizedBox(
             width: double.infinity,
-            child: new Text(_tfm.nextTurnBottomName, textAlign: TextAlign.center,),
+            child: new Text(nextTurnBottomName(), textAlign: TextAlign.center,),
           ),
         ),
       ],
     );
   }
 
-  String getDisplayVal(int num){
-    if(_tfm.inGame()) {
-      return "$num";
+  String nextTurnBottomName(){
+    if(_tfm.inGame()){
+      if(_tfm.status.turn == 10){
+        return ButttomName.END_TURN;
+      } else {
+        return ButttomName.NEXT_TURN;
+      }
     } else {
-      return "-";
+      if(_tfm.status.turn == 0){
+        return ButttomName.START_GAME;
+      } else {
+        return ButttomName.START_NEW_GAME;
+      }
     }
   }
 
-  void resetBoard(){
-    mainScore = 0;
-    sub1Score = 0;
-    sub2Score = 0;
-    sub3Score = 0;
-    totalScore = 0;
+  String getCurrTurnName() {
+    if(_tfm.inDisplay == InDisplay.USER_PLAYER){
+      return _tfm.status.getUserPlayer().playerName;
+    } else if(_tfm.inDisplay == InDisplay.ENEMY_PLAYER){
+      return _tfm.status.getEnemyPlayer().playerName;
+    } else {
+      if (_tfm.inGame()) {
+        return InDisplay.TURN_DICT[_tfm.status.turn]
+            + "-"
+            + _tfm.status
+                .getCurrPlayer()
+                .playerName;
+      } else {
+        return InDisplay.TURN_DICT[_tfm.status.turn];
+      }
+    }
   }
 }

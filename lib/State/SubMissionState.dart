@@ -1,33 +1,58 @@
 import 'package:flutter/material.dart';
-import 'package:scoreboard/entity/TextFieldManager.dart';
+import 'package:scoreboard/entity/PlayerScore.dart';
+import 'package:scoreboard/service/TextFieldManager.dart';
+import 'package:scoreboard/utils/DisplayUtil.dart';
+import 'package:scoreboard/utils/DisplayUtil.dart';
+import 'package:scoreboard/utils/DisplayUtil.dart';
 import 'package:scoreboard/widget/SubMission.dart';
 
 class SubMissionState extends State<SubMission> {
   TextFieldManager _tfm;
 
-  TextEditingController the1stTurnScoreController =
-  new TextEditingController(text: '0');
-  TextEditingController the2ndTurnScoreController =
-  new TextEditingController(text: '0');
-  TextEditingController the3rdTurnScoreController =
-  new TextEditingController(text: '0');
-  TextEditingController the1stMissionController =
-  new TextEditingController(text: '子任务1');
-  TextEditingController the2ndMissionController =
-  new TextEditingController(text: '子任务2');
-  TextEditingController the3rdMissionController =
-  new TextEditingController(text: '子任务3');
+  PlayerScore player;
 
-  SubMissionState(TextFieldManager tfm) {
+  TextEditingController userNameController;
+  TextEditingController the1stTurnScoreController;
+  TextEditingController the2ndTurnScoreController;
+  TextEditingController the3rdTurnScoreController;
+  TextEditingController the1stMissionController;
+  TextEditingController the2ndMissionController;
+  TextEditingController the3rdMissionController;
+
+  SubMissionState(TextFieldManager tfm, PlayerScore player, bool isUserPlayer) {
     this._tfm = tfm;
-    this._tfm.subMissionState = this;
+    this.player = player;
+    this.player.isUser = isUserPlayer;
+
+    if(this._tfm.getSubMissionState(player) == null){
+      this._tfm.subMissionStates.putIfAbsent(player, () => this);
+    } else {
+      this._tfm.subMissionStates.update(player, (value) => this);
+    }
+
+    initBoard(this.player);
+  }
+
+  void initBoard(PlayerScore player){
+    userNameController = new TextEditingController(text: player.playerName);
+    the1stTurnScoreController = new TextEditingController(text: DisplayUtil.getDisplayVal(_tfm, player.subMission1Score));
+    the2ndTurnScoreController = new TextEditingController(text: DisplayUtil.getDisplayVal(_tfm, player.subMission2Score));
+    the3rdTurnScoreController = new TextEditingController(text: DisplayUtil.getDisplayVal(_tfm, player.subMission3Score));
+    the1stMissionController = new TextEditingController(text: player.subMission1Desc);
+    the2ndMissionController = new TextEditingController(text: player.subMission2Desc);
+    the3rdMissionController = new TextEditingController(text: player.subMission3Desc);
   }
 
   @override
   Widget build(BuildContext context) {
-    Row the1stLine = buildNewRow(the1stMissionController, the1stTurnScoreController, _tfm.scoreBoardState.sub1Score);
-    Row the2ndLine = buildNewRow(the2ndMissionController, the2ndTurnScoreController, _tfm.scoreBoardState.sub2Score);
-    Row the3rdLine = buildNewRow(the3rdMissionController, the3rdTurnScoreController, _tfm.scoreBoardState.sub3Score);
+    new Row(children: [
+      new Expanded(child: new TextField(controller: userNameController,), flex: 8,),
+      new Expanded(child: new Text("是否是您"), flex: 3,),
+      new Expanded(child: new Switch(value: player.isUser, onChanged: (val){}))
+    ],);
+    Row the1stLine = buildNewRow(the1stMissionController, the1stTurnScoreController, DisplayUtil.getDisplayVal(_tfm, player.subMission1Score));
+    Row the2ndLine = buildNewRow(the2ndMissionController, the2ndTurnScoreController, DisplayUtil.getDisplayVal(_tfm, player.subMission2Score));
+    Row the3rdLine = buildNewRow(the3rdMissionController, the3rdTurnScoreController, DisplayUtil.getDisplayVal(_tfm, player.subMission3Score));
 
     Column c = new Column(children: [the1stLine, the2ndLine, the3rdLine]);
     return c;
@@ -35,7 +60,7 @@ class SubMissionState extends State<SubMission> {
 
   Row buildNewRow(TextEditingController missionNameController,
       TextEditingController turnScoreController,
-      int score) {
+      String score) {
     return new Row(
       children: [
         Expanded(
@@ -49,7 +74,7 @@ class SubMissionState extends State<SubMission> {
             child: Column(
               children: [
                 new Text("得分", style: TextStyle(fontSize: 10),),
-                new Text(score.toString(), style: TextStyle(fontSize: 18),),
+                new Text(score, style: TextStyle(fontSize: 18),),
               ],
             )),
         Expanded(

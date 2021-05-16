@@ -1,25 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:scoreboard/entity/TextFieldManager.dart';
+import 'package:scoreboard/entity/Status.dart';
+import 'package:scoreboard/service/TextFieldManager.dart';
 import 'package:scoreboard/widget/MainMission.dart';
 import 'package:scoreboard/widget/ScoreBoard.dart';
 import 'package:scoreboard/widget/SubMission.dart';
 
-void main() => runApp(new MyApp());
+void main(){
+  WidgetsFlutterBinding.ensureInitialized();
+  runner();
+}
 
-class MyApp extends StatefulWidget {
+void runner() async{
+  Status status = Status.instance;
+  await status.initScoresUnFile();
+  runApp(new MainPage(status));
+}
+
+class MainPage extends StatefulWidget {
+  Status status;
+
+  MainPage(this.status);
+
   @override
   State<StatefulWidget> createState() {
-    return TotalState();
+    return TotalState(status);
   }
 }
 
-class TotalState extends State<MyApp> {
-  TextFieldManager tfm = new TextFieldManager();
+class TotalState extends State<MainPage> {
+  TextFieldManager tfm;
+  Status status;
+
+
+  TotalState(this.status);
 
   @override
   Widget build(BuildContext context) {
+    tfm = new TextFieldManager(status);
     MainMission mainMission = new MainMission(tfm);
-    SubMission subMission = new SubMission(tfm);
+    SubMission subMission1 = new SubMission(tfm, tfm.status.player1, true);
+    SubMission subMission2 = new SubMission(tfm, tfm.status.player2, false);
     ScoreBoard scoreBoard = new ScoreBoard(tfm);
 
     return new MaterialApp(
@@ -39,7 +59,8 @@ class TotalState extends State<MyApp> {
                     children: [
                       makeNewBoard(scoreBoard),
                       makeNewBoard(mainMission),
-                      makeNewBoard(subMission),
+                      makeNewBoard(subMission1),
+                      makeNewBoard(subMission2),
                       makeNewBoard(new TextField(decoration: InputDecoration(labelText: "备注"),)),
                     ],
                   ),

@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:scoreboard/State/SubMissionState.dart';
-import 'package:scoreboard/entity/TextFieldManager.dart';
+import 'package:scoreboard/entity/PlayerScore.dart';
+import 'package:scoreboard/service/TextFieldManager.dart';
 
 
 class SubMission extends StatefulWidget {
   TextFieldManager tfm;
+  PlayerScore player;
+  bool isUserPlayer;
 
-  SubMission(TextFieldManager tfm) {
+  SubMission(TextFieldManager tfm, PlayerScore player, bool isUserPlayer) {
     this.tfm = tfm;
-    this.tfm.subMissionState = SubMissionState(tfm);
+    this.player = player;
   }
 
   @override
-  State<StatefulWidget> createState() => this.tfm.subMissionState;
+  State<StatefulWidget> createState() => SubMissionState(tfm, player, isUserPlayer);
 }
 
