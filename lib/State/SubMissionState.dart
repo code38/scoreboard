@@ -45,16 +45,16 @@ class SubMissionState extends State<SubMission> {
 
   @override
   Widget build(BuildContext context) {
-    new Row(children: [
+    Row nameRow = new Row(children: [
       new Expanded(child: new TextField(controller: userNameController,), flex: 8,),
       new Expanded(child: new Text("是否是您"), flex: 3,),
-      new Expanded(child: new Switch(value: player.isUser, onChanged: (val){}))
+      new Expanded(child: new Switch(value: /*player.isUser*/false, onChanged: (val){}))
     ],);
     Row the1stLine = buildNewRow(the1stMissionController, the1stTurnScoreController, DisplayUtil.getDisplayVal(_tfm, player.subMission1Score));
     Row the2ndLine = buildNewRow(the2ndMissionController, the2ndTurnScoreController, DisplayUtil.getDisplayVal(_tfm, player.subMission2Score));
     Row the3rdLine = buildNewRow(the3rdMissionController, the3rdTurnScoreController, DisplayUtil.getDisplayVal(_tfm, player.subMission3Score));
 
-    Column c = new Column(children: [the1stLine, the2ndLine, the3rdLine]);
+    Column c = new Column(children: [nameRow, the1stLine, the2ndLine, the3rdLine]);
     return c;
   }
 
