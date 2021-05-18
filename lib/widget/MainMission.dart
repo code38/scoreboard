@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scoreboard/State/MainMissionState.dart';
+import 'package:scoreboard/widget/state/MainMissionState.dart';
 import 'package:scoreboard/service/TextFieldManager.dart';
 
 

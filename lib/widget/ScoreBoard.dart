@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scoreboard/State/ScoreBoardState.dart';
+import 'package:scoreboard/widget/State/ScoreBoardState.dart';
 import 'package:scoreboard/service/TextFieldManager.dart';
 
 class ScoreBoard extends StatefulWidget {

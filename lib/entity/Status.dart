@@ -42,7 +42,7 @@ class Status{
     the2ndMissionTargetScore = 5;
     the3rdMissionTargetScore = 5;
 
-    String remark = "";
+    remark = "";
     player1 = new PlayerScore("玩家1", isUser: true);
     player2 = new PlayerScore("玩家2");
     saveStatus();

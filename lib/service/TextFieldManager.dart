@@ -1,6 +1,6 @@
-import 'package:scoreboard/State/MainMissionState.dart';
-import 'package:scoreboard/State/ScoreBoardState.dart';
-import 'package:scoreboard/State/SubMissionState.dart';
+import 'package:scoreboard/widget/state/MainMissionState.dart';
+import 'package:scoreboard/widget/state/ScoreBoardState.dart';
+import 'package:scoreboard/widget/state/SubMissionState.dart';
 import 'package:scoreboard/constant/InDisplay.dart';
 import 'package:scoreboard/entity/PlayerScore.dart';
 import 'package:scoreboard/entity/Status.dart';

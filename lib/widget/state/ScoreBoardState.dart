@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scoreboard/State/SubMissionState.dart';
-import 'package:scoreboard/constant/ButttomName.dart';
+import 'package:scoreboard/constant/ButtonName.dart';
 import 'package:scoreboard/constant/InDisplay.dart';
 import 'package:scoreboard/entity/PlayerScore.dart';
 import 'package:scoreboard/service/TextFieldManager.dart';
@@ -41,7 +40,7 @@ class ScoreBoardState extends State<ScoreBoard> {
         Center(
             child: Padding(
               child: new Text(
-                getCurrTurnName(),
+                DisplayUtil.getCurrTurnName(_tfm),
                 style: TextStyle(
                     fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
@@ -149,44 +148,10 @@ class ScoreBoardState extends State<ScoreBoard> {
           color: Colors.blue,
           child: SizedBox(
             width: double.infinity,
-            child: new Text(nextTurnBottomName(), textAlign: TextAlign.center,),
+            child: new Text(DisplayUtil.nextTurnBottomName(_tfm), textAlign: TextAlign.center,),
           ),
         ),
       ],
     );
-  }
-
-  String nextTurnBottomName(){
-    if(_tfm.inGame()){
-      if(_tfm.status.turn == 10){
-        return ButttomName.END_TURN;
-      } else {
-        return ButttomName.NEXT_TURN;
-      }
-    } else {
-      if(_tfm.status.turn == 0){
-        return ButttomName.START_GAME;
-      } else {
-        return ButttomName.START_NEW_GAME;
-      }
-    }
-  }
-
-  String getCurrTurnName() {
-    if(_tfm.inDisplay == InDisplay.USER_PLAYER){
-      return _tfm.status.getUserPlayer().playerName;
-    } else if(_tfm.inDisplay == InDisplay.ENEMY_PLAYER){
-      return _tfm.status.getEnemyPlayer().playerName;
-    } else {
-      if (_tfm.inGame()) {
-        return InDisplay.TURN_DICT[_tfm.status.turn]
-            + "-"
-            + _tfm.status
-                .getCurrPlayer()
-                .playerName;
-      } else {
-        return InDisplay.TURN_DICT[_tfm.status.turn];
-      }
-    }
   }
 }

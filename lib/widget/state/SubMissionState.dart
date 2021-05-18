@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:scoreboard/entity/PlayerScore.dart';
 import 'package:scoreboard/service/TextFieldManager.dart';
 import 'package:scoreboard/utils/DisplayUtil.dart';
-import 'package:scoreboard/utils/DisplayUtil.dart';
-import 'package:scoreboard/utils/DisplayUtil.dart';
 import 'package:scoreboard/widget/SubMission.dart';
 
 class SubMissionState extends State<SubMission> {
