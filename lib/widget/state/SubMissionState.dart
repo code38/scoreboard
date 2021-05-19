@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scoreboard/bus/WidgetEventDispatcher.dart';
-import 'package:scoreboard/entity/SubMissionVO.dart';
+import 'package:scoreboard/entity/viewObject/SubMissionVO.dart';
 import 'package:scoreboard/widget/SubMission.dart';
 
 class SubMissionState extends State<SubMission> {
@@ -65,8 +65,6 @@ class SubMissionState extends State<SubMission> {
 
   Row buildNewRow(TextEditingController missionNameController,
       TextEditingController turnScoreController, String score) {
-    turnScoreController.text = "0";
-
     return new Row(
       children: [
         Expanded(

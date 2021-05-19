@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scoreboard/bus/WidgetEventDispatcher.dart';
-import 'package:scoreboard/entity/ScoreBoardVO.dart';
+import 'package:scoreboard/entity/viewObject/ScoreBoardVO.dart';
 import 'package:scoreboard/widget/ScoreBoard.dart';
 
 

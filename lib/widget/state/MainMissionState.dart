@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scoreboard/bus/WidgetEventDispatcher.dart';
-import 'package:scoreboard/entity/MainMissionVO.dart';
+import 'package:scoreboard/entity/viewObject/MainMissionVO.dart';
 import 'package:scoreboard/widget/MainMission.dart';
 
 class MainMissionState extends State<MainMission> {

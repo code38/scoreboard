@@ -3,9 +3,9 @@ import 'package:scoreboard/constant/InDisplay.dart';
 import 'package:scoreboard/controller/DisplayController.dart';
 import 'package:scoreboard/controller/PersistenceController.dart';
 import 'package:scoreboard/controller/ProcessController.dart';
-import 'package:scoreboard/entity/MainMissionVO.dart';
-import 'package:scoreboard/entity/ScoreBoardVO.dart';
-import 'package:scoreboard/entity/SubMissionVO.dart';
+import 'package:scoreboard/entity/viewObject/MainMissionVO.dart';
+import 'package:scoreboard/entity/viewObject/ScoreBoardVO.dart';
+import 'package:scoreboard/entity/viewObject/SubMissionVO.dart';
 
 class WidgetEventDispatcher {
   DisplayController _displayController;
@@ -25,7 +25,15 @@ class WidgetEventDispatcher {
   void mainMissionTargetStatusUpdate(String targetName, bool val) {}
 
   void nextTurn() {
+    clearTurnStatus();
     _processController.toNextTurn();
+  }
+
+  void clearTurnStatus(){
+    _displayController.clearSubMissionInput();
+    setMainTargetStatus(1, false);
+    setMainTargetStatus(2, false);
+    setMainTargetStatus(3, false);
   }
 
   TextEditingController getTextEditionController(String controllerName,
