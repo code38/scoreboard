@@ -7,6 +7,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:scoreboard/bus/WidgetEventDispatcher.dart';
+import 'package:scoreboard/controller/DisplayController.dart';
+import 'package:scoreboard/controller/PersistenceController.dart';
+import 'package:scoreboard/controller/ProcessController.dart';
 import 'package:scoreboard/entity/Status.dart';
 
 import 'package:scoreboard/main.dart';
@@ -17,7 +21,14 @@ void main() {
     // Build our app and trigger a frame.
     Status status = Status.instance;
     await status.initScoresUnFile();
-    await tester.pumpWidget(MainPage(status));
+
+    DisplayController displayController = new DisplayController();
+    PersistenceController persistenceController = new PersistenceController();
+    ProcessController processController = new ProcessController();
+
+    WidgetEventDispatcher dispatcher = new WidgetEventDispatcher(
+        displayController, persistenceController, processController);
+    await tester.pumpWidget(MainPage(dispatcher));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:convert';
 
+import 'package:scoreboard/constant/InDisplay.dart';
+
 import 'PlayerScore.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -10,9 +12,10 @@ class Status{
   static final Status _instance = Status._privateConstructor();
 
   int _turn = 0;
+  int currentDisplayPlayer = InDisplay.TURN_PLAYER;
 
-  PlayerScore player1 = new PlayerScore("玩家1", isUser: true);
-  PlayerScore player2 = new PlayerScore("玩家2");
+  PlayerScore player1 = new PlayerScore("玩家1", 0, isUser: true);
+  PlayerScore player2 = new PlayerScore("玩家2", 1);
 
   int player = 1;
 
@@ -43,8 +46,8 @@ class Status{
     the3rdMissionTargetScore = 5;
 
     remark = "";
-    player1 = new PlayerScore("玩家1", isUser: true);
-    player2 = new PlayerScore("玩家2");
+    player1 = new PlayerScore("玩家1", 0, isUser: true);
+    player2 = new PlayerScore("玩家2", 1);
     saveStatus();
   }
 
@@ -99,6 +102,7 @@ class Status{
         'player1': {
           'playerName':player1.playerName,
           'isUser':player1.isUser,
+          'isUser':player1.isUser,
           '_mainMissionScore':player1.mainMissionScore,
           '_subMission1Score':player1.subMission1Score,
           '_subMission2Score':player1.subMission2Score,
@@ -119,6 +123,17 @@ class Status{
           '_subMission3Desc':player2.subMission3Desc,
         },
       };
+
+  PlayerScore getPlayerByType(int inDisplay){
+    if(currentDisplayPlayer == InDisplay.TURN_PLAYER){
+      return getCurrPlayer();
+    } else if (currentDisplayPlayer == InDisplay.USER_PLAYER){
+      return getUserPlayer();
+    } else if (currentDisplayPlayer == InDisplay.ENEMY_PLAYER){
+      return getEnemyPlayer();
+    }
+    return null;
+  }
 
   PlayerScore getCurrPlayer() {
     if(_turn == 0 || _turn == 11){

@@ -20,7 +20,7 @@ class TextFieldManager{
 
   void onClickNextTurnBottom(){
     if(status.turn != 11 && status.turn != 0 && status.turn != 10){
-      nextTurn();
+      // nextTurn();
     } else if(status.turn == 10){
       endGame();
     } else if(status.turn == 0){
@@ -44,35 +44,35 @@ class TextFieldManager{
     status.resetStatus();
   }
 
-  void nextTurn(){
-    calcScore(status.getCurrPlayer());
-    scoreBoardState.player = status.getNextPlayer();
-    status.turn++;
-  }
-
-  void calcScore(PlayerScore player){
-    int score = 0;
-
-    if(status.turn > 2 && status.turn < 11) {
-      if (getStatus("1")) {
-        score += int.parse(mainMissionState.the1stScoreController.text);
-      }
-      if (getStatus("2")) {
-        score += int.parse(mainMissionState.the2ndScoreController.text);
-      }
-      if (getStatus("3")) {
-        score += int.parse(mainMissionState.the3rdScoreController.text);
-      }
-
-      player.mainMissionScore = score;
-    }
-
-    SubMissionState subMissionState = getSubMissionState(player);
-
-    player.subMission1Score = int.parse(subMissionState.the1stTurnScoreController.text);
-    player.subMission2Score = int.parse(subMissionState.the2ndTurnScoreController.text);
-    player.subMission3Score = int.parse(subMissionState.the3rdTurnScoreController.text);
-  }
+  // void nextTurn(){
+  //   calcScore(status.getCurrPlayer());
+  //   scoreBoardState.player = status.getNextPlayer();
+  //   status.turn++;
+  // }
+  //
+  // void calcScore(PlayerScore player){
+  //   int score = 0;
+  //
+  //   if(status.turn > 2 && status.turn < 11) {
+  //     if (getStatus("1")) {
+  //       score += int.parse(mainMissionState.the1stScoreController.text);
+  //     }
+  //     if (getStatus("2")) {
+  //       score += int.parse(mainMissionState.the2ndScoreController.text);
+  //     }
+  //     if (getStatus("3")) {
+  //       score += int.parse(mainMissionState.the3rdScoreController.text);
+  //     }
+  //
+  //     player.mainMissionScore = score;
+  //   }
+  //
+  //   SubMissionState subMissionState = getSubMissionState(player);
+  //
+  //   player.subMission1Score = int.parse(subMissionState.the1stTurnScoreController.text);
+  //   player.subMission2Score = int.parse(subMissionState.the2ndTurnScoreController.text);
+  //   player.subMission3Score = int.parse(subMissionState.the3rdTurnScoreController.text);
+  // }
 
   // void updateScoreBoard(PlayerScore player){
   //   scoreBoardState.mainScore = player.mainMissionScore;
@@ -124,20 +124,20 @@ class TextFieldManager{
     }
   }
 
-  void switchDisplayScore() {
-    if(inGame()){
-      if(this.inDisplay == InDisplay.TURN_PLAYER){
-        scoreBoardState.player = status.getUserPlayer();
-        this.inDisplay = InDisplay.USER_PLAYER;
-      } else if (this.inDisplay == InDisplay.USER_PLAYER){
-        scoreBoardState.player = status.getEnemyPlayer();
-        this.inDisplay = InDisplay.ENEMY_PLAYER;
-      } else if(this.inDisplay == InDisplay.ENEMY_PLAYER){
-        scoreBoardState.player = status.getCurrPlayer();
-        this.inDisplay = InDisplay.TURN_PLAYER;
-      }
-    }
-  }
+  // void switchDisplayScore() {
+  //   if(inGame()){
+  //     if(this.inDisplay == InDisplay.TURN_PLAYER){
+  //       scoreBoardState.player = status.getUserPlayer();
+  //       this.inDisplay = InDisplay.USER_PLAYER;
+  //     } else if (this.inDisplay == InDisplay.USER_PLAYER){
+  //       scoreBoardState.player = status.getEnemyPlayer();
+  //       this.inDisplay = InDisplay.ENEMY_PLAYER;
+  //     } else if(this.inDisplay == InDisplay.ENEMY_PLAYER){
+  //       scoreBoardState.player = status.getCurrPlayer();
+  //       this.inDisplay = InDisplay.TURN_PLAYER;
+  //     }
+  //   }
+  // }
 
   SubMissionState getSubMissionState(PlayerScore player){
     return subMissionStates[player];

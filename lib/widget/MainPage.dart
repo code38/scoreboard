@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:scoreboard/bus/WidgetEventDispatcher.dart';
 import 'package:scoreboard/entity/Status.dart';
 import 'package:scoreboard/widget/state/TotalState.dart';
 
 class MainPage extends StatefulWidget {
-  Status status;
+  WidgetEventDispatcher _widgetEventDispatcher;
 
-  MainPage(this.status);
+
+  MainPage(this._widgetEventDispatcher);
 
   @override
   State<StatefulWidget> createState() {
-    return TotalState(status);
+    return TotalState(_widgetEventDispatcher);
   }
 }

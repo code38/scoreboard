@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:scoreboard/bus/WidgetEventDispatcher.dart';
 import 'package:scoreboard/widget/state/MainMissionState.dart';
 import 'package:scoreboard/service/TextFieldManager.dart';
 
 
 class MainMission extends StatefulWidget {
-  TextFieldManager tfm;
+  WidgetEventDispatcher _widgetEventDispatcher;
 
-  MainMission(TextFieldManager tfm) {
-    this.tfm = tfm;
-    this.tfm.mainMissionState = MainMissionState(tfm);
+  MainMission(WidgetEventDispatcher widgetEventDispatcher) {
+    this._widgetEventDispatcher = widgetEventDispatcher;
   }
 
   @override
-  State<StatefulWidget> createState() => MainMissionState(tfm);
+  State<StatefulWidget> createState() => MainMissionState(_widgetEventDispatcher);
 }

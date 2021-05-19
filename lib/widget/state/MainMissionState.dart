@@ -1,62 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:scoreboard/bus/WidgetEventDispatcher.dart';
+import 'package:scoreboard/entity/MainMissionVO.dart';
 import 'package:scoreboard/service/TextFieldManager.dart';
 import 'package:scoreboard/utils/DisplayUtil.dart';
 import 'package:scoreboard/widget/MainMission.dart';
 
-
 class MainMissionState extends State<MainMission> {
-  TextFieldManager _tfm;
+  WidgetEventDispatcher _widgetEventDispatcher;
 
-  TextEditingController the1stScoreController;
-  TextEditingController the2ndScoreController;
-  TextEditingController the3rdScoreController;
-  TextEditingController the1stTargetController;
-  TextEditingController the2ndTargetController;
-  TextEditingController the3rdTargetController;
-
-  TextEditingController mainMissionNameController;
-
-  MainMissionState(TextFieldManager tfm) {
-    this._tfm = tfm;
-    _tfm.mainMissionState = this;
-
-    the1stScoreController =
-    new TextEditingController(text: DisplayUtil.getDisplayVal(_tfm, _tfm.status.the1stMissionTargetScore));
-    the2ndScoreController =
-    new TextEditingController(text: DisplayUtil.getDisplayVal(_tfm, _tfm.status.the3rdMissionTargetScore));
-    the3rdScoreController =
-    new TextEditingController(text: DisplayUtil.getDisplayVal(_tfm, _tfm.status.the3rdMissionTargetScore));
-
-    the1stTargetController = new TextEditingController(text: DisplayUtil.getDisplayStr(_tfm.status.the1stMissionTargetName));
-    the2ndTargetController = new TextEditingController(text: DisplayUtil.getDisplayStr(_tfm.status.the2ndMissionTargetName));
-    the3rdTargetController = new TextEditingController(text: DisplayUtil.getDisplayStr(_tfm.status.the3rdMissionTargetName));
-
-    mainMissionNameController =
-    new TextEditingController(text: _tfm.status.mainMissionTargetName);
+  MainMissionState(WidgetEventDispatcher widgetEventDispatcher) {
+    this._widgetEventDispatcher = widgetEventDispatcher;
   }
 
   @override
   Widget build(BuildContext context) {
-    Row the1stLine = buildNewRow("第一", "1", the1stScoreController, the1stTargetController, _tfm);
-    Row the2ndLine = buildNewRow("第二", "2", the2ndScoreController, the2ndTargetController, _tfm);
-    Row the3rdLine = buildNewRow("第三", "3", the3rdScoreController, the3rdTargetController, _tfm);
+    MainMissionVO vo = _widgetEventDispatcher.getMainMissionValue();
+
+    Row the1stLine = buildNewRow("第一", 1,
+        _widgetEventDispatcher.getTextEditionController("MainMissionScore1",
+            defaultText: vo.target1Score),
+        _widgetEventDispatcher.getTextEditionController("MainTargetScore1",
+            defaultText: vo.target1Desc));
+    Row the2ndLine = buildNewRow("第二", 2,
+        _widgetEventDispatcher.getTextEditionController("MainMissionScore2",
+            defaultText: vo.target2Score),
+        _widgetEventDispatcher.getTextEditionController("MainTargetScore2",
+            defaultText: vo.target2Desc));
+    Row the3rdLine = buildNewRow("第三", 3,
+        _widgetEventDispatcher.getTextEditionController("MainMissionScore3",
+            defaultText: vo.target3Score),
+        _widgetEventDispatcher.getTextEditionController("MainTargetScore3",
+            defaultText: vo.target3Desc));
 
     Column c = new Column(children: [
       new Padding(
           child: new Row(
             children: [
-              new Expanded(child: TextField(
-                controller: mainMissionNameController,
-                  decoration: InputDecoration(labelText: "主任务描述"),
-              ),
+              new Expanded(
+                  child: TextField(
+                    controller: _widgetEventDispatcher.getTextEditionController(
+                        "MainMissionName",
+                        defaultText: vo.mainMissionDesc),
+                    decoration: InputDecoration(labelText: "主任务描述"),
+                  ),
                   flex: 8),
-              new Expanded(child: MaterialButton(
-                child: new Padding(
-                  child:new Text("Roll一个"),
-                  padding: EdgeInsets.only(left: 5),
-                ),
-                onPressed: null,
-              ), flex: 4)
+              new Expanded(
+                  child: MaterialButton(
+                    child: new Padding(
+                      child: new Text("Roll一个"),
+                      padding: EdgeInsets.only(left: 5),
+                    ),
+                    onPressed: null,
+                  ),
+                  flex: 4)
             ],
           ),
           padding: EdgeInsets.only(bottom: 5)),
@@ -67,20 +63,20 @@ class MainMissionState extends State<MainMission> {
     return c;
   }
 
-  Row buildNewRow(String s, String stateName,
+  Row buildNewRow(
+      String s,
+      int targetNum,
       TextEditingController scoreController,
-      TextEditingController targetController,
-      TextFieldManager textFieldManager) {
+      TextEditingController targetController) {
     return new Row(
       children: [
         Expanded(
           flex: 6,
-          child: new Padding(padding: EdgeInsets.only(right: 15),
+          child: new Padding(
+              padding: EdgeInsets.only(right: 15),
               child: TextField(
-                decoration: InputDecoration(labelText: s + "目标描述"),
-                  controller: targetController
-              )
-          ),
+                  decoration: InputDecoration(labelText: s + "目标描述"),
+                  controller: targetController)),
         ),
         Expanded(
             flex: 4,
@@ -91,14 +87,13 @@ class MainMissionState extends State<MainMission> {
         Expanded(
             flex: 2,
             child: Checkbox(
-              value: _tfm.getStatus(stateName),
+              value: _widgetEventDispatcher.getMainTargetStatus(targetNum),
               onChanged: (bool value) {
                 setState(() {
-                  _tfm.setStatus(stateName, value);
+                  _widgetEventDispatcher.setMainTargetStatus(targetNum, value);
                 });
               },
-            )
-        )
+            ))
       ],
     );
   }

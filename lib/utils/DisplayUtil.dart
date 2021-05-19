@@ -3,8 +3,8 @@ import 'package:scoreboard/constant/InDisplay.dart';
 import 'package:scoreboard/service/TextFieldManager.dart';
 
 class DisplayUtil{
-  static String getDisplayVal(TextFieldManager tfm, int num){
-    if(tfm.inGame()) {
+  static String getDisplayVal(bool inGame, int num){
+    if(inGame) {
       return "$num";
     } else {
       return "-";
@@ -19,15 +19,15 @@ class DisplayUtil{
     }
   }
 
-  static String nextTurnBottomName(TextFieldManager tfm){
-    if(tfm.inGame()){
-      if(tfm.status.turn == 10){
+  static String nextTurnBottomName(bool inGame, int turn){
+    if(inGame){
+      if(turn == 10){
         return ButtonName.END_TURN;
       } else {
         return ButtonName.NEXT_TURN;
       }
     } else {
-      if(tfm.status.turn == 0){
+      if(turn == 0){
         return ButtonName.START_GAME;
       } else {
         return ButtonName.START_NEW_GAME;
@@ -35,21 +35,23 @@ class DisplayUtil{
     }
   }
 
-  static String getCurrTurnName(TextFieldManager tfm) {
-    if(tfm.inDisplay == InDisplay.USER_PLAYER){
-      return tfm.status.getUserPlayer().playerName;
-    } else if(tfm.inDisplay == InDisplay.ENEMY_PLAYER){
-      return tfm.status.getEnemyPlayer().playerName;
+  static String getCurrTurnName(int inDisplay, bool inGame, int turn, String playerName) {
+    if(inDisplay == InDisplay.USER_PLAYER){
+      return playerName;
+    } else if(inDisplay == InDisplay.ENEMY_PLAYER){
+      return playerName;
     } else {
-      if (tfm.inGame()) {
-        return InDisplay.TURN_DICT[tfm.status.turn]
+      if (inGame) {
+        return InDisplay.TURN_DICT[turn]
             + "-"
-            + tfm.status
-                .getCurrPlayer()
-                .playerName;
+            + playerName;
       } else {
-        return InDisplay.TURN_DICT[tfm.status.turn];
+        return InDisplay.TURN_DICT[turn];
       }
     }
+  }
+
+  static int getValidValue(String context){
+    return int.tryParse(context) ?? 0;
   }
 }

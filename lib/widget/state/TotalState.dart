@@ -1,25 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:scoreboard/entity/Status.dart';
-import 'package:scoreboard/service/TextFieldManager.dart';
+import 'package:scoreboard/bus/WidgetEventDispatcher.dart';
 import 'package:scoreboard/widget/MainMission.dart';
 import 'package:scoreboard/widget/MainPage.dart';
 import 'package:scoreboard/widget/ScoreBoard.dart';
 import 'package:scoreboard/widget/SubMission.dart';
 
 class TotalState extends State<MainPage> {
-  TextFieldManager tfm;
-  Status status;
+  WidgetEventDispatcher _widgetEventDispatcher;
 
-
-  TotalState(this.status);
+  TotalState(this._widgetEventDispatcher);
 
   @override
   Widget build(BuildContext context) {
-    tfm = new TextFieldManager(status);
-    MainMission mainMission = new MainMission(tfm);
-    SubMission subMission1 = new SubMission(tfm, tfm.status.player1, true);
-    SubMission subMission2 = new SubMission(tfm, tfm.status.player2, false);
-    ScoreBoard scoreBoard = new ScoreBoard(tfm);
+    ScoreBoard scoreBoard = new ScoreBoard(_widgetEventDispatcher);
+    MainMission mainMission = new MainMission(_widgetEventDispatcher);
+    SubMission subMission1 = new SubMission(_widgetEventDispatcher, 1);
+    SubMission subMission2 = new SubMission(_widgetEventDispatcher, 2);
+
 
     return new MaterialApp(
       title: '40K Score Board',

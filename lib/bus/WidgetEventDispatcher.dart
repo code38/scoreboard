@@ -1,39 +1,71 @@
 import 'package:flutter/cupertino.dart';
+import 'package:scoreboard/constant/InDisplay.dart';
 import 'package:scoreboard/controller/DisplayController.dart';
 import 'package:scoreboard/controller/PersistenceController.dart';
 import 'package:scoreboard/controller/ProcessController.dart';
-import 'package:scoreboard/utils/DisplayUtil.dart';
+import 'package:scoreboard/entity/MainMissionVO.dart';
+import 'package:scoreboard/entity/ScoreBoardVO.dart';
+import 'package:scoreboard/entity/SubMissionVO.dart';
 
-class WidgetEventDispatcher{
-  DisplayController displayController;
-  PersistenceController persistenceController;
-  ProcessController processController;
+class WidgetEventDispatcher {
+  DisplayController _displayController;
+  PersistenceController _persistenceController;
+  ProcessController _processController;
 
-  TextEditingController getTextEditingController(String controllerName, {String defaultText}){
-    return displayController.getTextEditionController(controllerName, defaultText: defaultText);
+
+  WidgetEventDispatcher(this._displayController, this._persistenceController,
+      this._processController);
+
+  TextEditingController getTextEditingController(String controllerName,
+      {String defaultText}) {
+    return _displayController.getTextEditionController(controllerName,
+        defaultText: defaultText);
   }
 
-  void mainMissionTargetStatusUpdate(String targetName, bool val){
+  void mainMissionTargetStatusUpdate(String targetName, bool val) {}
 
+  void nextTurn() {
+    _processController.toNextTurn();
   }
 
-  void toNextTurn(){
+  TextEditingController getTextEditionController(String controllerName,
+      {String defaultText}) =>
+      _processController.getTextEditionController(controllerName,
+          defaultText: defaultText);
 
+  ScoreBoardVO getScoreBoardValue(){
+    return _displayController.getScoreBoardValue();
   }
 
-  void onClickNextTurnBottom(){
-    if(processController.status.turn != 11
-        && processController.status.turn != 0
-        && processController.status.turn != 10){
-      processController.nextTurn();
-    } else if(processController.status.turn == 10){
-      processController.endGame();
-    } else if(processController.status.turn == 0){
-      processController.startGame();
-    } else if(processController.status.turn == 11){
-      processController.startNewGame();
-    }
+  MainMissionVO getMainMissionValue(){
+    return _displayController.getMainMissionValue();
+  }
 
-    processController.status.saveStatus();
+  SubMissionVO getSubMissionValue(int playerId){
+    return _displayController.getSubMissionValue(playerId);
+  }
+
+  void switchDisplayScore() {
+    _displayController.switchDisplayScore();
+  }
+
+  bool getMainTargetStatus(int targetNum) {
+    return _processController.getMainTargetStatus(targetNum);
+  }
+
+  void setMainTargetStatus(int targetNum, bool value) {
+    _processController.setMainTargetStatus(targetNum, value);
+  }
+
+  int getCurrentPlayerId(){
+    return _processController.getPlayerId(InDisplay.TURN_PLAYER);
+  }
+
+  int getUserPlayerId(){
+    return _processController.getPlayerId(InDisplay.USER_PLAYER);
+  }
+
+  int getEnemyPlayerId(){
+    return _processController.getPlayerId(InDisplay.ENEMY_PLAYER);
   }
 }

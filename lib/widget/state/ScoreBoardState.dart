@@ -1,32 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:scoreboard/constant/ButtonName.dart';
-import 'package:scoreboard/constant/InDisplay.dart';
-import 'package:scoreboard/entity/PlayerScore.dart';
-import 'package:scoreboard/service/TextFieldManager.dart';
-import 'package:scoreboard/utils/DisplayUtil.dart';
+import 'package:scoreboard/bus/WidgetEventDispatcher.dart';
+import 'package:scoreboard/entity/ScoreBoardVO.dart';
 import 'package:scoreboard/widget/ScoreBoard.dart';
 
 
 class ScoreBoardState extends State<ScoreBoard> {
-  TextFieldManager _tfm;
-  PlayerScore player;
+  WidgetEventDispatcher _widgetEventDispatcher;
 
-  ScoreBoardState(TextFieldManager textFieldManager) {
-    this._tfm = textFieldManager;
-    this._tfm.scoreBoardState = this;
-  }
+  ScoreBoardState(this._widgetEventDispatcher);
 
   @override
   Widget build(BuildContext context) {
-    PlayerScore player = this.player;
-    if(player == null) {
-      player = _tfm.status.getCurrPlayer();
-    }
+    ScoreBoardVO scoreBoard = _widgetEventDispatcher.getScoreBoardValue();
 
-    int totalScore = player.subMission3Score + player.subMission2Score
-        + player.subMission1Score + player.mainMissionScore;
-
-    this.player = null;
     return new Column(
       children: [
         Align(
@@ -40,7 +26,7 @@ class ScoreBoardState extends State<ScoreBoard> {
         Center(
             child: Padding(
               child: new Text(
-                DisplayUtil.getCurrTurnName(_tfm),
+                scoreBoard.playerName,
                 style: TextStyle(
                     fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
@@ -58,10 +44,10 @@ class ScoreBoardState extends State<ScoreBoard> {
         Center(
             child: Padding(child: new InkWell(
                 onTap: (){setState(() {
-                  _tfm.switchDisplayScore();
+                  _widgetEventDispatcher.switchDisplayScore();
                 });},
                 child: new Text(
-                  DisplayUtil.getDisplayVal(_tfm, totalScore),
+                  scoreBoard.totalScore,
                   style: TextStyle(
                       fontSize: 32,
                       color: Colors.black,
@@ -80,7 +66,7 @@ class ScoreBoardState extends State<ScoreBoard> {
                     children: [
                       Expanded(
                           child: new Text(
-                            DisplayUtil.getDisplayStr(_tfm.status.mainMissionTargetName),
+                            scoreBoard.mainMissionName,
                             style: TextStyle(
                               color: Colors.grey,
                             ),
@@ -88,7 +74,7 @@ class ScoreBoardState extends State<ScoreBoard> {
                           )),
                       Expanded(
                           child: new Text(
-                            DisplayUtil.getDisplayStr(player.subMission1Desc),
+                            scoreBoard.subMission1Name,
                             style: TextStyle(
                               color: Colors.grey,
                             ),
@@ -96,7 +82,7 @@ class ScoreBoardState extends State<ScoreBoard> {
                           )),
                       Expanded(
                           child: new Text(
-                            DisplayUtil.getDisplayStr(player.subMission2Desc),
+                            scoreBoard.subMission2Name,
                             style: TextStyle(
                               color: Colors.grey,
                             ),
@@ -104,7 +90,7 @@ class ScoreBoardState extends State<ScoreBoard> {
                           )),
                       Expanded(
                           child: new Text(
-                            DisplayUtil.getDisplayStr(player.subMission3Desc),
+                            scoreBoard.subMission3Name,
                             style: TextStyle(
                               color: Colors.grey,
                             ),
@@ -116,22 +102,22 @@ class ScoreBoardState extends State<ScoreBoard> {
                     children: [
                       Expanded(
                           child: new Text(
-                            DisplayUtil.getDisplayVal(_tfm, player.mainMissionScore),
+                            scoreBoard.mainMissionScore,
                             textAlign: TextAlign.center,
                           )),
                       Expanded(
                           child: new Text(
-                            DisplayUtil.getDisplayVal(_tfm, player.subMission1Score),
+                            scoreBoard.subMission1Score,
                             textAlign: TextAlign.center,
                           )),
                       Expanded(
                           child: new Text(
-                            DisplayUtil.getDisplayVal(_tfm, player.subMission2Score),
+                            scoreBoard.subMission2Score,
                             textAlign: TextAlign.center,
                           )),
                       Expanded(
                           child: new Text(
-                            DisplayUtil.getDisplayVal(_tfm, player.subMission3Score),
+                            scoreBoard.subMission3Score,
                             textAlign: TextAlign.center,
                           )),
                     ],
@@ -142,13 +128,13 @@ class ScoreBoardState extends State<ScoreBoard> {
         MaterialButton(
           onPressed: () {
             setState(() {
-              _tfm.onClickNextTurnBottom();
+              _widgetEventDispatcher.nextTurn();
             });
           },
           color: Colors.blue,
           child: SizedBox(
             width: double.infinity,
-            child: new Text(DisplayUtil.nextTurnBottomName(_tfm), textAlign: TextAlign.center,),
+            child: new Text(scoreBoard.buttonName, textAlign: TextAlign.center,),
           ),
         ),
       ],

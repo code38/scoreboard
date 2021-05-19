@@ -2,19 +2,18 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:scoreboard/entity/Status.dart';
+import 'package:scoreboard/entity/TextControllerManager.dart';
 
-class AbstractController{
+class AbstractController {
   Status _status = Status.instance;
-  Map<String, TextEditingController> _textEditionControllerList = new HashMap();
-
-  TextEditingController getTextEditionController(String controllerName, {String defaultText}){
-    if(_textEditionControllerList[controllerName] == null){
-      _textEditionControllerList.putIfAbsent(controllerName,
-              () => new TextEditingController(text: defaultText == null ? "" : defaultText));
-    }
-
-    return _textEditionControllerList[controllerName];
-  }
+  TextControllerManager _controllerManager = TextControllerManager.instance;
 
   Status get status => _status;
+
+  TextControllerManager get controllerManager => _controllerManager;
+
+  TextEditingController getTextEditionController(String controllerName,
+          {String defaultText}) =>
+      _controllerManager.getTextEditionController(controllerName,
+          defaultText: defaultText);
 }

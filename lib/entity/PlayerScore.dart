@@ -1,6 +1,7 @@
 class PlayerScore{
   String playerName;
   bool isUser = false;
+  int playerId = 0;
 
   int _mainMissionScore = 0;
 
@@ -16,8 +17,9 @@ class PlayerScore{
   String _subMission2Desc = "子任务2";
   String _subMission3Desc = "子任务3";
 
-  PlayerScore(String playerName, {bool isUser}){
+  PlayerScore(String playerName, int playerId, {bool isUser, }){
     this.playerName = playerName;
+    this.playerId = playerId == null ? 0 : playerId;
     this.isUser = isUser == null ? false : isUser;
   }
 
