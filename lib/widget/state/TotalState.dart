@@ -14,8 +14,8 @@ class TotalState extends State<MainPage> {
   Widget build(BuildContext context) {
     ScoreBoard scoreBoard = new ScoreBoard(_widgetEventDispatcher);
     MainMission mainMission = new MainMission(_widgetEventDispatcher);
-    SubMission subMission1 = new SubMission(_widgetEventDispatcher, 1);
-    SubMission subMission2 = new SubMission(_widgetEventDispatcher, 2);
+    SubMission subMission1 = new SubMission(_widgetEventDispatcher, 0);
+    SubMission subMission2 = new SubMission(_widgetEventDispatcher, 1);
 
 
     return new MaterialApp(

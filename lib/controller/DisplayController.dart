@@ -1,4 +1,6 @@
 import 'package:scoreboard/constant/InDisplay.dart';
+import 'package:scoreboard/constant/InGame.dart';
+import 'package:scoreboard/constant/TurnStatus.dart';
 import 'package:scoreboard/controller/interface/AbstractController.dart';
 import 'package:scoreboard/entity/MainMissionVO.dart';
 import 'package:scoreboard/entity/PlayerScore.dart';
@@ -18,29 +20,47 @@ class DisplayController extends AbstractController {
   ScoreBoardVO getScoreBoardValue() {
     ScoreBoardVO scoreBoard = new ScoreBoardVO();
 
-    PlayerScore player = status.getPlayerByType(status.currentDisplayPlayer);
+    if(status.currentDisplayPlayer == InDisplay.TURN_PLAYER && inGame() == InGame.AFTER_GAME){
+      scoreBoard.playerName = TurnStatus.END_TURN;
+      scoreBoard.totalScore = "-";
 
-    scoreBoard.playerName = player.playerName;
-    scoreBoard.totalScore = DisplayUtil.getDisplayVal(
-        inGame(),
-        player.mainMissionScore +
-            player.subMission1Score +
-            player.subMission2Score +
-            player.subMission3Score);
+      scoreBoard.mainMissionScore = "-";
+      scoreBoard.subMission1Score = "-";
+      scoreBoard.subMission2Score = "-";
+      scoreBoard.subMission3Score = "-";
 
-    scoreBoard.mainMissionScore =
-        DisplayUtil.getDisplayVal(inGame(), player.mainMissionScore);
-    scoreBoard.subMission1Score =
-        DisplayUtil.getDisplayVal(inGame(), player.subMission1Score);
-    scoreBoard.subMission2Score =
-        DisplayUtil.getDisplayVal(inGame(), player.subMission2Score);
-    scoreBoard.subMission3Score =
-        DisplayUtil.getDisplayVal(inGame(), player.subMission3Score);
+      scoreBoard.mainMissionName = "-";
+      scoreBoard.subMission1Name = "-";
+      scoreBoard.subMission2Name = "-";
+      scoreBoard.subMission3Name = "-";
+    } else {
+      PlayerScore player = status.getPlayerByType(status.currentDisplayPlayer);
 
-    scoreBoard.mainMissionName = status.mainMissionTargetName;
-    scoreBoard.subMission1Name = player.subMission1Desc;
-    scoreBoard.subMission2Name = player.subMission2Desc;
-    scoreBoard.subMission3Name = player.subMission3Desc;
+      scoreBoard.playerName = DisplayUtil.getCurrTurnName(
+          status.currentDisplayPlayer, inGame(), status.turn,
+          player.playerName);
+      scoreBoard.totalScore = DisplayUtil.getDisplayVal(
+          inGame(),
+          player.mainMissionScore +
+              player.subMission1Score +
+              player.subMission2Score +
+              player.subMission3Score);
+
+      scoreBoard.mainMissionScore =
+          DisplayUtil.getDisplayVal(inGame(), player.mainMissionScore);
+      scoreBoard.subMission1Score =
+          DisplayUtil.getDisplayVal(inGame(), player.subMission1Score);
+      scoreBoard.subMission2Score =
+          DisplayUtil.getDisplayVal(inGame(), player.subMission2Score);
+      scoreBoard.subMission3Score =
+          DisplayUtil.getDisplayVal(inGame(), player.subMission3Score);
+
+      scoreBoard.mainMissionName = status.mainMissionTargetName;
+      scoreBoard.subMission1Name = player.subMission1Desc;
+      scoreBoard.subMission2Name = player.subMission2Desc;
+      scoreBoard.subMission3Name = player.subMission3Desc;
+    }
+
     scoreBoard.buttonName =
         DisplayUtil.nextTurnBottomName(inGame(), status.turn);
 
@@ -67,7 +87,7 @@ class DisplayController extends AbstractController {
   SubMissionVO getSubMissionValue(int playerId) {
     SubMissionVO subMissionVO = new SubMissionVO();
 
-    PlayerScore player = status.getPlayerByType(status.currentDisplayPlayer);
+    PlayerScore player = status.getPlayerById(playerId);
 
     subMissionVO.playerName = player.playerName;
     subMissionVO.subMission1Name = player.subMission1Desc;
@@ -87,22 +107,32 @@ class DisplayController extends AbstractController {
   }
 
   void switchDisplayScore() {
-    if (inGame()) {
-      if (status.currentDisplayPlayer == InDisplay.TURN_PLAYER) {
-        status.currentDisplayPlayer = InDisplay.USER_PLAYER;
-      } else if (status.currentDisplayPlayer == InDisplay.USER_PLAYER) {
-        status.currentDisplayPlayer = InDisplay.ENEMY_PLAYER;
-      } else if (status.currentDisplayPlayer == InDisplay.ENEMY_PLAYER) {
-        status.currentDisplayPlayer = InDisplay.TURN_PLAYER;
-      }
+    // if (inGame()) {
+    //   if (status.currentDisplayPlayer == InDisplay.TURN_PLAYER) {
+    //     status.currentDisplayPlayer = InDisplay.USER_PLAYER;
+    //   } else if (status.currentDisplayPlayer == InDisplay.USER_PLAYER) {
+    //     status.currentDisplayPlayer = InDisplay.ENEMY_PLAYER;
+    //   } else if (status.currentDisplayPlayer == InDisplay.ENEMY_PLAYER) {
+    //     status.currentDisplayPlayer = InDisplay.TURN_PLAYER;
+    //   }
+    // }
+
+    if (status.currentDisplayPlayer == InDisplay.TURN_PLAYER) {
+      status.currentDisplayPlayer = InDisplay.USER_PLAYER;
+    } else if (status.currentDisplayPlayer == InDisplay.USER_PLAYER) {
+      status.currentDisplayPlayer = InDisplay.ENEMY_PLAYER;
+    } else if (status.currentDisplayPlayer == InDisplay.ENEMY_PLAYER) {
+      status.currentDisplayPlayer = InDisplay.TURN_PLAYER;
     }
   }
 
-  bool inGame() {
+  int inGame() {
     if (status.turn != 11 && status.turn != 0) {
-      return true;
+      return InGame.IN_GAME;
+    } else if (status.turn == 11){
+      return InGame.AFTER_GAME;
     } else {
-      return false;
+      return InGame.BEFORE_GAME;
     }
   }
 }

@@ -57,18 +57,18 @@ class ProcessController extends AbstractController {
     int stateNum = status.getCurrPlayer().playerId;
 
     player.subMission1Score = DisplayUtil.getValidValue(
-        getTextEditionController("SubMission1-$stateNum").text);
+        getTextEditionController("SubMission1Score-$stateNum").text);
     player.subMission2Score = DisplayUtil.getValidValue(
-        getTextEditionController("SubMission1-$stateNum").text);
+        getTextEditionController("SubMission2Score-$stateNum").text);
     player.subMission3Score = DisplayUtil.getValidValue(
-        getTextEditionController("SubMission1-$stateNum").text);
+        getTextEditionController("SubMission3Score-$stateNum").text);
   }
 
   void saveMissionInfo() {
     status.mainMissionTargetName = getTextEditionController("MainMissionName").text;
-    status.the1stMissionTargetName = getTextEditionController("MainMissionName").text;
-    status.the2ndMissionTargetName = getTextEditionController("MainMissionName").text;
-    status.the3rdMissionTargetName = getTextEditionController("MainMissionName").text;
+    status.the1stMissionTargetName = getTextEditionController("MainTargetDesc1").text;
+    status.the2ndMissionTargetName = getTextEditionController("MainTargetDesc2").text;
+    status.the3rdMissionTargetName = getTextEditionController("MainTargetDesc3").text;
 
     status.the1stMissionTargetScore = DisplayUtil.getValidValue(getTextEditionController("MainTargetScore1").text);
     status.the1stMissionTargetScore = DisplayUtil.getValidValue(getTextEditionController("MainTargetScore2").text);

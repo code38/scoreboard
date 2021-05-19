@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scoreboard/bus/WidgetEventDispatcher.dart';
 import 'package:scoreboard/widget/state/MainMissionState.dart';
-import 'package:scoreboard/service/TextFieldManager.dart';
 
 
 class MainMission extends StatefulWidget {

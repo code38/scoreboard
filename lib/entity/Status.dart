@@ -124,6 +124,15 @@ class Status{
         },
       };
 
+  PlayerScore getPlayerById(int id){
+    if(player1.playerId == id){
+      return player1;
+    } else if (player2.playerId == id){
+      return player2;
+    }
+    return null;
+  }
+
   PlayerScore getPlayerByType(int inDisplay){
     if(currentDisplayPlayer == InDisplay.TURN_PLAYER){
       return getCurrPlayer();

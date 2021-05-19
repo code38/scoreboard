@@ -1,10 +1,10 @@
 import 'package:scoreboard/constant/ButtonName.dart';
 import 'package:scoreboard/constant/InDisplay.dart';
-import 'package:scoreboard/service/TextFieldManager.dart';
+import 'package:scoreboard/constant/InGame.dart';
 
 class DisplayUtil{
-  static String getDisplayVal(bool inGame, int num){
-    if(inGame) {
+  static String getDisplayVal(int inGame, int num){
+    if(inGame != InGame.BEFORE_GAME) {
       return "$num";
     } else {
       return "-";
@@ -19,15 +19,15 @@ class DisplayUtil{
     }
   }
 
-  static String nextTurnBottomName(bool inGame, int turn){
-    if(inGame){
+  static String nextTurnBottomName(int inGame, int turn){
+    if(inGame == InGame.IN_GAME){
       if(turn == 10){
         return ButtonName.END_TURN;
       } else {
         return ButtonName.NEXT_TURN;
       }
     } else {
-      if(turn == 0){
+      if(inGame == InGame.BEFORE_GAME){
         return ButtonName.START_GAME;
       } else {
         return ButtonName.START_NEW_GAME;
@@ -35,13 +35,13 @@ class DisplayUtil{
     }
   }
 
-  static String getCurrTurnName(int inDisplay, bool inGame, int turn, String playerName) {
+  static String getCurrTurnName(int inDisplay, int inGame, int turn, String playerName) {
     if(inDisplay == InDisplay.USER_PLAYER){
       return playerName;
     } else if(inDisplay == InDisplay.ENEMY_PLAYER){
       return playerName;
     } else {
-      if (inGame) {
+      if (inGame == InGame.IN_GAME) {
         return InDisplay.TURN_DICT[turn]
             + "-"
             + playerName;

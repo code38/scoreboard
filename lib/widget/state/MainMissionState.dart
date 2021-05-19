@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scoreboard/bus/WidgetEventDispatcher.dart';
 import 'package:scoreboard/entity/MainMissionVO.dart';
-import 'package:scoreboard/service/TextFieldManager.dart';
-import 'package:scoreboard/utils/DisplayUtil.dart';
 import 'package:scoreboard/widget/MainMission.dart';
 
 class MainMissionState extends State<MainMission> {
@@ -17,20 +15,20 @@ class MainMissionState extends State<MainMission> {
     MainMissionVO vo = _widgetEventDispatcher.getMainMissionValue();
 
     Row the1stLine = buildNewRow("第一", 1,
-        _widgetEventDispatcher.getTextEditionController("MainMissionScore1",
-            defaultText: vo.target1Score),
+        _widgetEventDispatcher.getTextEditionController("MainTargetDesc1",
+            defaultText: vo.target1Desc),
         _widgetEventDispatcher.getTextEditionController("MainTargetScore1",
-            defaultText: vo.target1Desc));
+            defaultText: vo.target1Score));
     Row the2ndLine = buildNewRow("第二", 2,
-        _widgetEventDispatcher.getTextEditionController("MainMissionScore2",
-            defaultText: vo.target2Score),
+        _widgetEventDispatcher.getTextEditionController("MainTargetDesc2",
+            defaultText: vo.target2Desc),
         _widgetEventDispatcher.getTextEditionController("MainTargetScore2",
-            defaultText: vo.target2Desc));
+            defaultText: vo.target2Score));
     Row the3rdLine = buildNewRow("第三", 3,
-        _widgetEventDispatcher.getTextEditionController("MainMissionScore3",
-            defaultText: vo.target3Score),
+        _widgetEventDispatcher.getTextEditionController("MainTargetDesc3",
+            defaultText: vo.target3Desc),
         _widgetEventDispatcher.getTextEditionController("MainTargetScore3",
-            defaultText: vo.target3Desc));
+            defaultText: vo.target3Score));
 
     Column c = new Column(children: [
       new Padding(
@@ -66,8 +64,8 @@ class MainMissionState extends State<MainMission> {
   Row buildNewRow(
       String s,
       int targetNum,
-      TextEditingController scoreController,
-      TextEditingController targetController) {
+      TextEditingController targetNameController,
+      TextEditingController scoreController) {
     return new Row(
       children: [
         Expanded(
@@ -76,7 +74,7 @@ class MainMissionState extends State<MainMission> {
               padding: EdgeInsets.only(right: 15),
               child: TextField(
                   decoration: InputDecoration(labelText: s + "目标描述"),
-                  controller: targetController)),
+                  controller: targetNameController)),
         ),
         Expanded(
             flex: 4,
