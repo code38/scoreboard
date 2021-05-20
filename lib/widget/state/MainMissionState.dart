@@ -6,8 +6,15 @@ import 'package:scoreboard/widget/MainMission.dart';
 class MainMissionState extends State<MainMission> {
   WidgetEventDispatcher _widgetEventDispatcher;
 
+  var _refreshSubscription;
+
   MainMissionState(WidgetEventDispatcher widgetEventDispatcher) {
     this._widgetEventDispatcher = widgetEventDispatcher;
+    _refreshSubscription = _widgetEventDispatcher.eventBus.on<String>().listen((event) {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override

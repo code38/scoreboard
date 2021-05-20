@@ -1,3 +1,4 @@
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:scoreboard/constant/InDisplay.dart';
 import 'package:scoreboard/controller/DisplayController.dart';
@@ -8,6 +9,8 @@ import 'package:scoreboard/entity/viewObject/ScoreBoardVO.dart';
 import 'package:scoreboard/entity/viewObject/SubMissionVO.dart';
 
 class WidgetEventDispatcher {
+  EventBus eventBus = EventBus(sync: true);
+
   DisplayController _displayController;
   PersistenceController _persistenceController;
   ProcessController _processController;
@@ -25,8 +28,9 @@ class WidgetEventDispatcher {
   void mainMissionTargetStatusUpdate(String targetName, bool val) {}
 
   void nextTurn() {
-    clearTurnStatus();
     _processController.toNextTurn();
+    clearTurnStatus();
+    eventBus.fire("");
   }
 
   void clearTurnStatus(){

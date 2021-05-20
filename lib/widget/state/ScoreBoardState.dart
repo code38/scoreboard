@@ -7,7 +7,16 @@ import 'package:scoreboard/widget/ScoreBoard.dart';
 class ScoreBoardState extends State<ScoreBoard> {
   WidgetEventDispatcher _widgetEventDispatcher;
 
-  ScoreBoardState(this._widgetEventDispatcher);
+  var _refreshSubscription;
+
+  ScoreBoardState(WidgetEventDispatcher widgetEventDispatcher) {
+    this._widgetEventDispatcher = widgetEventDispatcher;
+    _refreshSubscription = _widgetEventDispatcher.eventBus.on<String>().listen((event) {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,3 +1,4 @@
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:scoreboard/constant/InDisplay.dart';
 import 'package:scoreboard/constant/InGame.dart';
 import 'package:scoreboard/constant/TurnStatus.dart';
@@ -21,21 +22,39 @@ class DisplayController extends AbstractController {
     ScoreBoardVO scoreBoard = new ScoreBoardVO();
 
     if(status.currentDisplayPlayer == InDisplay.TURN_PLAYER && inGame() == InGame.AFTER_GAME){
-      PlayerScore winner = getTotalScore(status.player1) > getTotalScore(status.player2) ? status.player1 : status.player2;
-      PlayerScore loser = getTotalScore(status.player1) < getTotalScore(status.player2) ? status.player1 : status.player2;
+      if(getTotalScore(status.player1) == getTotalScore(status.player2)){
+        PlayerScore winner = status.player1;
+        PlayerScore loser = status.player2;
 
-      scoreBoard.playerName = TurnStatus.END_TURN + ":" + winner.playerName + "胜";
-      scoreBoard.totalScore = getTotalScore(winner).toString() + " : " + getTotalScore(loser).toString();
+        scoreBoard.playerName = TurnStatus.END_TURN + ":" + "平局";
+        scoreBoard.totalScore = getTotalScore(winner).toString() + " : " + getTotalScore(loser).toString();
 
-      scoreBoard.mainMissionScore = winner.mainMissionScore.toString() + " : " + loser.mainMissionScore.toString();
-      scoreBoard.subMission1Score = winner.subMission1Score.toString() + " : " + loser.subMission1Score.toString();
-      scoreBoard.subMission2Score = winner.subMission2Score.toString() + " : " + loser.subMission2Score.toString();
-      scoreBoard.subMission3Score = winner.subMission3Score.toString() + " : " + loser.subMission3Score.toString();
+        scoreBoard.mainMissionScore = winner.mainMissionScore.toString() + " : " + loser.mainMissionScore.toString();
+        scoreBoard.subMission1Score = winner.subMission1Score.toString() + " : " + loser.subMission1Score.toString();
+        scoreBoard.subMission2Score = winner.subMission2Score.toString() + " : " + loser.subMission2Score.toString();
+        scoreBoard.subMission3Score = winner.subMission3Score.toString() + " : " + loser.subMission3Score.toString();
 
-      scoreBoard.mainMissionName = status.mainMissionTargetName;
-      scoreBoard.subMission1Name = "子任务1";
-      scoreBoard.subMission2Name = "子任务2";
-      scoreBoard.subMission3Name = "子任务3";
+        scoreBoard.mainMissionName = status.mainMissionTargetName;
+        scoreBoard.subMission1Name = "子任务1";
+        scoreBoard.subMission2Name = "子任务2";
+        scoreBoard.subMission3Name = "子任务3";
+      } else {
+        PlayerScore winner = getTotalScore(status.player1) > getTotalScore(status.player2) ? status.player1 : status.player2;
+        PlayerScore loser = getTotalScore(status.player1) < getTotalScore(status.player2) ? status.player1 : status.player2;
+
+        scoreBoard.playerName = TurnStatus.END_TURN + ":" + winner.playerName + "胜";
+        scoreBoard.totalScore = getTotalScore(winner).toString() + " : " + getTotalScore(loser).toString();
+
+        scoreBoard.mainMissionScore = winner.mainMissionScore.toString() + " : " + loser.mainMissionScore.toString();
+        scoreBoard.subMission1Score = winner.subMission1Score.toString() + " : " + loser.subMission1Score.toString();
+        scoreBoard.subMission2Score = winner.subMission2Score.toString() + " : " + loser.subMission2Score.toString();
+        scoreBoard.subMission3Score = winner.subMission3Score.toString() + " : " + loser.subMission3Score.toString();
+
+        scoreBoard.mainMissionName = status.mainMissionTargetName;
+        scoreBoard.subMission1Name = "子任务1";
+        scoreBoard.subMission2Name = "子任务2";
+        scoreBoard.subMission3Name = "子任务3";
+      }
     } else {
       PlayerScore player = status.getPlayerByType(status.currentDisplayPlayer);
 

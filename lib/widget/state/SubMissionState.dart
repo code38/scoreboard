@@ -7,7 +7,17 @@ class SubMissionState extends State<SubMission> {
   WidgetEventDispatcher _widgetEventDispatcher;
   int _stateNum;
 
-  SubMissionState(this._widgetEventDispatcher, this._stateNum);
+  var _refreshSubscription;
+
+  SubMissionState(WidgetEventDispatcher widgetEventDispatcher, int stateNum) {
+    this._widgetEventDispatcher = widgetEventDispatcher;
+    this._stateNum = stateNum;
+    _refreshSubscription = _widgetEventDispatcher.eventBus.on<String>().listen((event) {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

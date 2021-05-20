@@ -8,7 +8,13 @@ import 'package:scoreboard/widget/SubMission.dart';
 class TotalState extends State<MainPage> {
   WidgetEventDispatcher _widgetEventDispatcher;
 
-  TotalState(this._widgetEventDispatcher);
+  TotalState(WidgetEventDispatcher widgetEventDispatcher){
+    this._widgetEventDispatcher = widgetEventDispatcher;
+  }
+
+  void redrawWidget(){
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +43,8 @@ class TotalState extends State<MainPage> {
                       makeNewBoard(mainMission),
                       makeNewBoard(subMission1),
                       makeNewBoard(subMission2),
-                      makeNewBoard(new TextField(decoration: InputDecoration(labelText: "备注"),)),
+                      makeNewBoard(new TextField(decoration: InputDecoration(labelText: "备注"),
+                      controller: _widgetEventDispatcher.getTextEditingController("remark"),)),
                     ],
                   ),
                 ),
