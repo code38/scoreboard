@@ -80,4 +80,9 @@ class WidgetEventDispatcher {
   int getEnemyPlayerId(){
     return _processController.getPlayerId(InDisplay.ENEMY_PLAYER);
   }
+
+  void endThisGame() {
+    _processController.endThisGame();
+    eventBus.fire("");
+  }
 }

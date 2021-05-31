@@ -110,4 +110,9 @@ class ProcessController extends AbstractController {
   int getPlayerId(int inDisplay) {
     return status.getPlayerByType(inDisplay).playerId;
   }
+
+  void endThisGame() {
+    status.turn = 10;
+    nextTurn();
+  }
 }
